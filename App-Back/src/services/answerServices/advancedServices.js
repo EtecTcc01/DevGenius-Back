@@ -1,12 +1,10 @@
 import database from '../../repository/connectMysql.js';
 
-//INCOMPLETO
-
-async function createAnswer(answer, idTask, altA, altB, altC, altD) { 
+async function createAnswer(answer, idTask) { 
   
-  const sql = `insert into tbl_answer_advanced_advanced (answer_text, id_task, alternativeA, alternativeB, alternativeC, alternativeD) values (?, ?, ?, ?, ?, ?);`
+  const sql = `insert into tbl_answer_advanced_advanced (answer_text, id_task) values (?, ?);`
 
-  const dataAnswer = [answer, idTask, altA, altB, altC, altD];
+  const dataAnswer = [answer, idTask];
 
   const conn = await database.connect();
 
@@ -15,10 +13,10 @@ async function createAnswer(answer, idTask, altA, altB, altC, altD) {
   conn.end();
 }
 
-async function updateAnswer(answer, altA, altB, altC, altD, idAnswer) {
-  const sql = "update tbl_answer_advanced set answer_text = ?, alternativeA = ?, alternativeB = ?, alternativeC = ?, alternativeD = ? where id = ?"
+async function updateAnswer(answer, idAnswer) {
+  const sql = "update tbl_answer_advanced set answer_text = ? where id = ?"
 
-  const dataAnswer = [answer, altA, altB, altC, altD, idAnswer];
+  const dataAnswer = [answer, idAnswer];
 
   const conn = await database.connect();
   await conn.query(sql, dataAnswer);

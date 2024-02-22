@@ -1,15 +1,13 @@
 import express from "express";
 import db from '../../services/answerServices/advancedServices.js'
 
-//INCOMPLETO
-
 const routes = express.Router();
 
 routes.post('/', async (request, response) => {
-  const { answer, idTask, altA, altB, altC, altD } = request.body;
+  const { answer, idTask } = request.body;
 
   try {
-    await db.createAnswer(answer, idTask, altA, altB, altC, altD);
+    await db.createAnswer(answer, idTask);
 
     return response.status(201).send({ message: 'Resposta adicionada com sucesso.' });
   } catch (error) {
@@ -20,9 +18,9 @@ routes.post('/', async (request, response) => {
 
 routes.put('/', async (request, response) => {
   try {
-    const { answer, altA, altB, altC, altD, idAnswer } = request.body;
+    const { answer, idAnswer } = request.body;
 
-    await db.updateAnswer(answer, altA, altB, altC, altD, idAnswer);
+    await db.updateAnswer(answer, idAnswer);
 
     response.status(200).send({ message: `Resposta atualizada com sucesso` })
   } catch (error) {
@@ -77,11 +75,11 @@ routes.get('/un/:idAnswer', async (request, response) => {
   }
 })
 
-routes.get('/unQuest/:idQuest', async (request, response) => {
+routes.get('/unTask/:idTask', async (request, response) => {
   try {
     const { idTask } = request.params;
 
-    const answer = await db.getAnswerQuest(idTask);
+    const answer = await db.getAnswerTask(idTask);
 
     if (answer.length > 0) {
       return response.status(200).send({answer: answer});
