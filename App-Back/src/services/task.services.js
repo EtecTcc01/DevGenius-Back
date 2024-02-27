@@ -46,7 +46,7 @@ async function getTask(idLanguage, idDifficulty) {
   const dataT = [idLanguage, idDifficulty]
 
   const conn = await database.connect()
-  const [rows] = await conn.query(sql, dataT) 
+  const [rows] = await conn.query(sql, dataT)
   conn.end()
   return rows
 }
@@ -55,7 +55,7 @@ async function getLangTask(idLanguage) {
   const sql = "select * from tbl_task where id_lang = ?"
 
   const conn = await database.connect()
-  const [rows] = await conn.query(sql, idLanguage) 
+  const [rows] = await conn.query(sql, idLanguage)
   conn.end()
   return rows
 }

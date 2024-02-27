@@ -1,19 +1,19 @@
 import database from '../repository/connectMysql.js';
 
 
-async function createGroup(name) { 
-  
+async function createGroup(name) {
+
   const sql = `insert into tbl_group (_name) values (?);`
 
   const conn = await database.connect();
 
   await conn.query(sql, name);
-  
+
   conn.end();
 }
 
-async function createGroupUser(idGroup, userName) { 
-  
+async function createGroupUser(idGroup, userName) {
+
   const sql = `insert into tbl_group_user (code_group, user_name) values (?, ?);`
 
   const dataGroupUser = [idGroup, userName]
@@ -21,7 +21,7 @@ async function createGroupUser(idGroup, userName) {
   const conn = await database.connect();
 
   await conn.query(sql, dataGroupUser);
-  
+
   conn.end();
 }
 
@@ -47,7 +47,7 @@ async function getAllGroup() {
   const sql = "select * from tbl_group";
 
   const conn = await database.connect();
-  const [rows] = await conn.query(sql); 
+  const [rows] = await conn.query(sql);
   conn.end();
   return rows;
 }
@@ -56,7 +56,7 @@ async function getGroup(idGroup) {
   const sql = "select * from tbl_group where _code = ?";
 
   const conn = await database.connect();
-  const [rows] = await conn.query(sql, idGroup); 
+  const [rows] = await conn.query(sql, idGroup);
   conn.end();
   return rows;
 }
@@ -70,11 +70,11 @@ async function getAllGroupUserJoin(userName) {
 }
 
 export default {
-    createGroup,
-    updateGroup,
-    deleteGroup,
-    getAllGroup,
-    getAllGroupUserJoin,
-    getGroup,
-    createGroupUser
+  createGroup,
+  updateGroup,
+  deleteGroup,
+  getAllGroup,
+  getAllGroupUserJoin,
+  getGroup,
+  createGroupUser
 };

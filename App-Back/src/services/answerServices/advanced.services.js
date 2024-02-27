@@ -1,23 +1,22 @@
 import database from '../../repository/connectMysql.js';
 
+async function createAnswer(answer, idTask) {
 
-async function createAnswer(answer, idTask, altA, altB, altC, altD) { 
-  
-  const sql = `insert into tbl_answer_basic (answer_text, id_task, alternativeA, alternativeB, alternativeC) values (?, ?, ?, ?, ?);`
+  const sql = `insert into tbl_answer_advanced_advanced (answer_text, id_task) values (?, ?);`
 
-  const dataAnswer = [answer, idTask, altA, altB, altC, altD];
+  const dataAnswer = [answer, idTask];
 
   const conn = await database.connect();
 
   await conn.query(sql, dataAnswer);
-  
+
   conn.end();
 }
 
-async function updateAnswer(answer, altA, altB, altC, altD, idAnswer) {
-  const sql = "update tbl_answer_basic set answer_text = ?, alternativeA = ?, alternativeB = ?, alternativeC = ? where id = ?"
+async function updateAnswer(answer, idAnswer) {
+  const sql = "update tbl_answer_advanced set answer_text = ? where id = ?"
 
-  const dataAnswer = [answer, altA, altB, altC, altD, idAnswer];
+  const dataAnswer = [answer, idAnswer];
 
   const conn = await database.connect();
   await conn.query(sql, dataAnswer);
@@ -25,7 +24,7 @@ async function updateAnswer(answer, altA, altB, altC, altD, idAnswer) {
 }
 
 async function deleteAnswer(idAnswer) {
-  const sql = "delete from tbl_answer_basic where id = ?";
+  const sql = "delete from tbl_answer_advanced where id = ?";
 
   const conn = await database.connect();
   await conn.query(sql, idAnswer);
@@ -33,7 +32,7 @@ async function deleteAnswer(idAnswer) {
 }
 
 async function getAllAnswer() {
-  const sql = "select * from tbl_answer_basic";
+  const sql = "select * from tbl_answer_advanced";
 
   const conn = await database.connect();
   const [rows] = await conn.query(sql);
@@ -42,7 +41,7 @@ async function getAllAnswer() {
 }
 
 async function getAnswer(idAnswer) {
-  const sql = "select * from tbl_answer_basic where id = ?";
+  const sql = "select * from tbl_answer_advanced where id = ?";
 
   const conn = await database.connect();
   const [rows] = await conn.query(sql, idAnswer);
@@ -51,7 +50,7 @@ async function getAnswer(idAnswer) {
 }
 
 async function getAnswerTask(idTask) {
-  const sql = "select * from tbl_answer_basic where id_task = ?";
+  const sql = "select * from tbl_answer_advanced where id_task = ?";
 
   const conn = await database.connect();
   const [rows] = await conn.query(sql, idTask);
@@ -60,9 +59,9 @@ async function getAnswerTask(idTask) {
 }
 
 export default {
-  createAnswer, 
-  updateAnswer, 
-  deleteAnswer, 
+  createAnswer,
+  updateAnswer,
+  deleteAnswer,
   getAnswer,
   getAllAnswer,
   getAnswerTask

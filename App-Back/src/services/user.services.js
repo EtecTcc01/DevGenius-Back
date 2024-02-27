@@ -1,16 +1,16 @@
 import database from '../repository/connectMysql.js';
 
 
-async function createUser(userName, userEmail, userPassword, typeUser) { 
-  
+async function createUser(userName, userEmail, userPassword, typeUser) {
+
   const sql = `insert into tbl_user (user_name, user_email, user_password, user_type) values (?, ?, ?, ?);`
 
   const dataUser = [userName, userEmail, userPassword, typeUser];
 
   const conn = await database.connect();
 
-  await conn.query(sql,dataUser);
-  
+  await conn.query(sql, dataUser);
+
   conn.end();
 }
 
@@ -36,7 +36,7 @@ async function getUser() {
   const sql = "select * from tbl_user where user_inactive = 0";
 
   const conn = await database.connect();
-  const [rows] = await conn.query(sql); 
+  const [rows] = await conn.query(sql);
   conn.end();
   return rows;
 }
@@ -50,4 +50,34 @@ async function getUserEmail(userEmail) {
   return rows;
 }
 
-export default {createUser, updateUser, deleteUser, getUser, getUserEmail};
+async function handleLogin(userEmail, userPassword) {
+  const sql = 'select user_email, user_password from tbl_user where user_email = ? and user_password = ?;'
+  const dataLogin = [userEmail, userPassword];
+
+  const conn = await database.connect();
+  const [rows] = await conn.query(sql, dataLogin);
+
+  conn.end();
+  return rows;
+}
+
+async function handleVerifyEmail(userEmail) {
+  const sql = 'select * from tbl_user where user_email = ?;'
+  const dataLogin = [userEmail];
+
+  const conn = await database.connect();
+  const [rows] = await conn.query(sql, dataLogin);
+
+  conn.end();
+  return rows;
+}
+
+export default {
+  createUser,
+  updateUser,
+  deleteUser,
+  getUser,
+  getUserEmail,
+  handleVerifyEmail,
+  handleLogin
+};

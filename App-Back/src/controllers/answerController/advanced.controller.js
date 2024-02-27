@@ -1,15 +1,13 @@
 import express from "express";
-import db from '../../services/answerServices/intermediaryServices.js'
-
-//INCOMPLETO
+import db from '../../services/answerServices/advanced.services.js'
 
 const routes = express.Router();
 
 routes.post('/', async (request, response) => {
-  const { answer, idTask, altA, altB, altC, altD, altE } = request.body;
+  const { answer, idTask } = request.body;
 
   try {
-    await db.createAnswer( answer, idTask, altA, altB, altC, altD, altE );
+    await db.createAnswer(answer, idTask);
 
     return response.status(201).send({ message: 'Resposta adicionada com sucesso.' });
   } catch (error) {
@@ -20,9 +18,9 @@ routes.post('/', async (request, response) => {
 
 routes.put('/', async (request, response) => {
   try {
-    const { answer, idTask, altA, altB, altC, altD, altE, idAnswer } = request.body;
+    const { answer, idAnswer } = request.body;
 
-    await db.updateAnswer(answer, idTask, altA, altB, altC, altD, altE, idAnswer);
+    await db.updateAnswer(answer, idAnswer);
 
     response.status(200).send({ message: `Resposta atualizada com sucesso` })
   } catch (error) {
@@ -34,7 +32,7 @@ routes.put('/', async (request, response) => {
 
 routes.delete('/:idAnswer', async (request, response) => {
   try {
-    const { idAnswer } = request.params; 
+    const { idAnswer } = request.params;
 
     await db.deleteAnswer(idAnswer);
 
@@ -84,7 +82,7 @@ routes.get('/unTask/:idTask', async (request, response) => {
     const answer = await db.getAnswerTask(idTask);
 
     if (answer.length > 0) {
-      return response.status(200).send({answer: answer});
+      return response.status(200).send({ answer: answer });
     } else {
       return response.status(204);
     }

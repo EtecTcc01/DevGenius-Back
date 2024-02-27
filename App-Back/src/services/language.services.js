@@ -1,8 +1,8 @@
 import database from '../repository/connectMysql.js';
 
 
-async function createLang(name, description) { 
-  
+async function createLang(name, description) {
+
   const sql = `insert into tbl_language (_name, _description) values (?, ?)`
 
   const dataLang = [name, description];
@@ -10,7 +10,7 @@ async function createLang(name, description) {
   const conn = await database.connect();
 
   await conn.query(sql, dataLang);
-  
+
   conn.end();
 }
 
@@ -54,9 +54,16 @@ async function getLang(idLanguage) {
   const sql = "select * from tbl_language where id = ?";
 
   const conn = await database.connect();
-  const [rows] = await conn.query(sql, idLanguage); 
+  const [rows] = await conn.query(sql, idLanguage);
   conn.end();
   return rows;
 }
 
-export default {createLang, updateLang, deleteLang, getLang, getAllLang, getAllLangGroup};
+export default {
+  createLang,
+  updateLang,
+  deleteLang,
+  getLang,
+  getAllLang,
+  getAllLangGroup
+};
