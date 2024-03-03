@@ -1,6 +1,6 @@
-# CREATE DATABASE bd_tcc;
+CREATE DATABASE bd_tcc;
 
-# USE bd_tcc;
+USE bd_tcc;
 
 # DROP DATABASE bd_tcc;
 
