@@ -94,7 +94,7 @@ routes.get('/userGroups/:userName', async (request, response) => {
         if (group.length > 0) {
             return response.status(200).send({ group: group });
         } else {
-            return response.status(204);
+            return response.status(204).end();
         }
 
     } catch (error) {

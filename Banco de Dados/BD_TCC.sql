@@ -20,6 +20,8 @@ CREATE TABLE tbl_user ( #TBL DE USUARIO
 
 CREATE TABLE tbl_info ( #TBL DE USUARIO
 	user_name VARCHAR(20),
+    firt_name VARCHAR(30),
+    last_name VARCHAR(50),
     date_birth DATE, #a partir da data de nascimento definiremos sua faixa etaria
     user_sex CHAR(1), #sexo (F ou M)
     user_level INT DEFAULT 0, #nivel atual do usuario
