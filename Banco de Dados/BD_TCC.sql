@@ -20,7 +20,7 @@ CREATE TABLE tbl_user ( #TBL DE USUARIO
 
 CREATE TABLE tbl_info ( #TBL DE USUARIO
 	user_name VARCHAR(20),
-    firt_name VARCHAR(30),
+    first_name VARCHAR(30),
     last_name VARCHAR(50),
     date_birth DATE, #a partir da data de nascimento definiremos sua faixa etaria
     user_sex CHAR(1), #sexo (F ou M)
@@ -56,6 +56,14 @@ CREATE TABLE tbl_language ( #TBL DE LINGUAGENS
     CONSTRAINT tbl_language_id_pk PRIMARY KEY (id),
     CONSTRAINT tbl_language_code_group_fk FOREIGN KEY (code_group)
     REFERENCES tbl_group (_code) ON DELETE CASCADE
+);
+
+CREATE TABLE tbl_language_avatar (
+	id_lang INT,
+    avatar VARCHAR(50),
+    CONSTRAINT tbl_language_avatar_id_pk PRIMARY KEY (id_lang),
+    CONSTRAINT tbl_language_avatar_id_lang_fk FOREIGN KEY (id_lang)
+    REFERENCES tbl_language (id)
 );
 
 CREATE TABLE tbl_difficulty ( #TBL DE DIFICULDADES
@@ -190,6 +198,7 @@ CREATE TABLE tbl_answer_advanced ( #TBL DE RESPOSTAS DO NÍVEL AVANÇADO P/DETER
 # ---------------------------------------------------------------------------------------------------------
 
 INSERT INTO tbl_user (user_name, user_email, user_password, user_type) VALUES ("Admin","admin01@gmail.com","admin0001","admin"), ("Other","other01@gmail.com","other0001","comum");
+INSERT INTO tbl_info (user_name, first_name, last_name, date_birth, user_sex) VALUES ("Admin", "Ademilson", "Oliveira Da Silva", "2000-02-09", "M"), ("Other", "Otherian", "Theodor Silveira", "1988-04-22", "F");
 INSERT INTO tbl_group (_name) VALUES ("Público"), ("GRUPO DOIS"), ("GROUP TRHEE"), ("GRUPO DE FOUR");
 INSERT INTO tbl_group_user (code_group, user_name) VALUES (3, "Admin"), (1, "Admin"), (1, "Other"), (2, "Other"), (4, "Other");
 

@@ -42,7 +42,16 @@ async function getUser() {
 }
 
 async function getUserEmail(userEmail) {
-  const sql = "select user_email, user_name, user_type from tbl_user where user_email = ?";
+  const sql = "select user_email, user_name, user_type, user_password from tbl_user where user_email = ?";
+
+  const conn = await database.connect();
+  const [rows] = await conn.query(sql, userEmail);
+  conn.end();
+  return rows;
+}
+
+async function getInfoUnEmail(userEmail) {
+  const sql = "select a.user_name, a.user_email, a.user_password, b.first_name, b.last_name, b.date_birth, b.user_sex, b.user_level, b.total_exp, a.user_inactive from tbl_user as a inner join tbl_info as b on b.user_name = a.user_name where a.user_email = ?;";
 
   const conn = await database.connect();
   const [rows] = await conn.query(sql, userEmail);
@@ -78,6 +87,7 @@ export default {
   deleteUser,
   getUser,
   getUserEmail,
+  getInfoUnEmail,
   handleVerifyEmail,
   handleLogin
 };

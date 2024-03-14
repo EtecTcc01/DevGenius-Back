@@ -93,4 +93,21 @@ routes.get('/un/:userEmail', async (request, response) => {
   }
 })
 
+routes.get('/infoUn/:userEmail', async (request, response) => {
+  try {
+    const { userEmail } = request.params;
+
+    const users = await db.getInfoUnEmail(userEmail);
+
+    if (users.length > 0) {
+      return response.status(200).send({ user: users });
+    } else {
+      return response.status(204);
+    }
+
+  } catch (error) {
+    response.status(500).send({ message: `Erro ao chamar os dados. ${error}` })
+  }
+})
+
 export default routes;
