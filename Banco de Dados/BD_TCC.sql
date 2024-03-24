@@ -84,6 +84,7 @@ CREATE TABLE tbl_task ( #TBL DAS PERGUNTAS (SOLO)
     _name VARCHAR(50), #nome da questão/titulo da questão (para identificação)
     task_text VARCHAR(250), #texto da pergunta	
 	explanation_task VARCHAR(100), #explicacao da pergunta (Um resumo p/quando a pessoa errar)
+    # task_instruction VARCHAR(100) DEFAULT "", #dica para o usuário
 	id_lang INT, #id da linguagem a qual a pergunta se refere
     id_diff INT, #id da dificuldade a qual a pergunta se refere
 	exp_task INT DEFAULT 0, #Cd pergunta dará (ou não) uma quantidade de exp que será adicionada ao exp_total da tabela user
@@ -238,7 +239,7 @@ INSERT INTO tbl_task (_name, task_text, explanation_task, id_lang, id_diff, exp_
 ("NODEJS02", "‼ api = express();\napi.‼(cors());\napi.use(express.json());\n‼.use('/teste', routes);", "Leia a Teoria NODEJS 02 para saber mais.", 3, 2, 5);
 
 INSERT INTO tbl_answer_Intermediary (id_task, answer_text, alternativeA, alternativeB, alternativeC, alternativeD, alternativeE) 
-VALUES (5, "if else", "for", "while", "promisse", "async  await", "foreach"),
+VALUES (5, "if else", "for", "while", "promisse", "async await", "foreach"),
 (6, "charset /head", "/name", "name /charset", "head", "meta/", "meta"),
 (7, "/script link href", "head meta", "name style", "src", "rel", "script/"),
 (8, "const use api", "express let", "cors INT", "route", "routes", "json");
