@@ -1,6 +1,6 @@
 import mysql2 from 'mysql2/promise'
 
-// Configuração padrão (localhost) do banco
+// Configuração padrão (localhost) do banco de dados
 
 async function connect() {
   return await mysql2.createConnection({
