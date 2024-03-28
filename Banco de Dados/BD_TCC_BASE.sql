@@ -125,7 +125,7 @@ CREATE TABLE tbl_registration ( #TBL DA MATRICULA (RELACIONAMENTO)
     REFERENCES tbl_user (user_name)
 );
 
-
+/*
 CREATE TABLE tbl_task_book ( #TBL DE RELAÇÃO ENTRE PERGUNTAS E O CURSO
 	id_registration INT, #id do curso em que o usuario está matriculado (linguagem + dificuldade)
     id_task INT, #id da pergunta a ser registrada em determinado curso
@@ -135,6 +135,7 @@ CREATE TABLE tbl_task_book ( #TBL DE RELAÇÃO ENTRE PERGUNTAS E O CURSO
     CONSTRAINT tbl_task_book_id_registration_fk FOREIGN KEY(id_registration)
     REFERENCES tbl_registration(id) ON DELETE CASCADE
 );
+*/
 
 # ---------------------------------------------------------------------------------------------------------------
 
@@ -152,6 +153,8 @@ CREATE TABLE tbl_answer_basic ( #TBL DE RESPOSTAS O NÍVEL BASICO P/DETERMINADA 
     REFERENCES tbl_task (id) ON DELETE CASCADE
 );
 
+# --------------------------------------------------------------------------------------------------------------------------------------------
+
 #Nível Intermediario: reencher as alternativas com, no maximo, 3 palavras, referente a programação (Com excessão da answer_text)
 CREATE TABLE tbl_answer_Intermediary ( #TBL DE RESPOSTAS DO NÍVEL INTERMEDIARIO P/DETERMINADA PERGUNTA DE DETERMINADO CURSO
 	id INT AUTO_INCREMENT,
@@ -168,15 +171,7 @@ CREATE TABLE tbl_answer_Intermediary ( #TBL DE RESPOSTAS DO NÍVEL INTERMEDIARIO
     REFERENCES tbl_task (id) ON DELETE CASCADE
 );
 
-#Tabela para a visualização de uma resposta "meia correta" da questão
-/*
-CREATE TABLE tbl_answer_half_correct (
-	answerId INT,
-    correctly_answer VARCHAR(30),
-    ahc_text VARCHAR(200),
-    CONSTRAINT tbl_answer_half_correct_id_pk PRIMARY KEY (answerId)
-);
-*/
+# --------------------------------------------------------------------------------------------------------------------------------------------
 
 #Nível avançado: preencher o campo com a resposta correta (Completa) e usar c/validação no front
 CREATE TABLE tbl_answer_advanced ( #TBL DE RESPOSTAS DO NÍVEL AVANÇADO P/DETERMINADA PERGUNTA DE DETERMINADO CURSO
