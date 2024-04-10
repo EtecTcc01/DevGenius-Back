@@ -16,6 +16,23 @@ routes.post('/register', async (request, response) => {
 
 })
 
+routes.get('/verify/:userEmail', async (request, response) => {
+  try {
+    const { userEmail } = request.params;
+
+    const verifyTest = await db.handleVerifyEmail(userEmail);
+
+    if (verifyTest.length < 1) {
+      response.status(200).send({ message: 'Email não cadastrado.' });
+    } else {
+      return response.status(401).send({ message: 'Email já cadastrado.' });
+    }
+
+  } catch (error) {
+    response.status(500).send({ message: `Erro ao buscar os dados. ${error}` })
+  }
+});
+
 routes.post('/validation', async (request, response) => {
   const { userEmail, userPassword } = request.body;
 

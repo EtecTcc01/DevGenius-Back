@@ -1,11 +1,11 @@
 import database from '../repository/connectMysql.js';
 
 
-async function createInfo(userName, userDate, userSex) {
+async function createInfo(userName, firstName, lastName, userDate, userSex) {
 
-  const sql = `insert into tbl_info (user_name, date_birth, user_sex) values (?, ?, ?)`
+  const sql = `insert into tbl_info (user_name, first_name, last_name, date_birth, user_sex) values (?, ?, ?, ?, ?)`
 
-  const dataInfo = [userName, userDate, userSex];
+  const dataInfo = [userName, firstName, lastName, userDate, userSex];
 
   const conn = await database.connect();
 
@@ -14,10 +14,10 @@ async function createInfo(userName, userDate, userSex) {
   conn.end();
 }
 
-async function updateInfo(userName, userDate, userSex) {
-  const sql = "update tbl_info set  date_brith = ?, user_sex = ? where user_name = ?"
+async function updateInfo(firstName, lastName, userDate, userSex, userName ) {
+  const sql = "update tbl_info set first_name = ?, last_name = ?, date_brith = ?, user_sex = ? where user_name = ?"
 
-  const dataInfo = [userName, userDate, userSex];
+  const dataInfo = [userName, userDate, userSex, firstName, lastName];
 
   const conn = await database.connect();
   await conn.query(sql, dataInfo);

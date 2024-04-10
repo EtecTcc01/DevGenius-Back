@@ -4,10 +4,10 @@ import db from '../services/info.services.js'
 const routes = express.Router();
 
 routes.post('/', async (request, response) => {
-  const { userName, userDate, userSex } = request.body;
+  const { userName, firstName, lastName, userDate, userSex } = request.body;
 
   try {
-    await db.createInfo(userName, userDate, userSex);
+    await db.createInfo(userName, firstName, lastName, userDate, userSex);
 
     return response.status(201).send({ message: 'Informação adicionada com sucesso.' });
   } catch (error) {
@@ -17,9 +17,9 @@ routes.post('/', async (request, response) => {
 
 routes.put('/', async (request, response) => {
   try {
-    const { userName, userDate, userSex } = request.body;
+    const { firstName, lastName, userDate, userSex, userName } = request.body;
 
-    await db.updateInfo({ userName, userDate, userSex });
+    await db.updateInfo({ firstName, lastName, userDate, userSex, userName });
 
     response.status(200).send({ message: `Informações do usuário ${userName} atualizados com sucesso` })
   } catch (error) {
