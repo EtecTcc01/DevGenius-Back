@@ -1,185 +1,152 @@
-CREATE DATABASE bd_tcc;
+CREATE DATABASE db_devgenius;
 
-USE bd_tcc;
+USE db_devgenius;
 
-# DROP DATABASE bd_tcc;
+# DROP DATABASE db_devgenius;
 
-# USE railway;
-
-# DROP DATABASE railway;
-
-CREATE TABLE tbl_user ( #TBL DE USUARIO
-	user_name VARCHAR(20), #nome de usuario (ficticio)
-    user_type CHAR(5), #definindo o tipo de usuario
-    user_email VARCHAR(50), #email valido do usuario
-    user_password VARCHAR(30), #senha do usuario
-    user_inactive BOOLEAN DEFAULT 0,
-    CONSTRAINT tbl_user_id_pk PRIMARY KEY (user_name),
-    CONSTRAINT tbl_user_un UNIQUE (user_email)
+CREATE TABLE tbl_user_type ( #TABELA DE TIPOS DE USUÁRIOS
+	_id INT UNSIGNED AUTO_INCREMENT,
+    _name VARCHAR(30), #tipo: COMUM, ADMINISTRATOR e EDUCATOR
+    CONSTRAINT tbl_user_type_pk PRIMARY KEY (_id)
 );
 
-CREATE TABLE tbl_info ( #TBL DE USUARIO
-	user_name VARCHAR(20),
-    first_name VARCHAR(30),
-    last_name VARCHAR(50),
-    date_birth DATE, #a partir da data de nascimento definiremos sua faixa etaria
-    user_sex CHAR(1), #sexo (F ou M)
-    user_level INT DEFAULT 0, #nivel atual do usuario
+CREATE TABLE tbl_user ( #TBL PARA CADASTRO DE USUARIOS
+	_id INT UNSIGNED AUTO_INCREMENT,
+    id_type INT UNSIGNED, #tipo de usuario
+	_name VARCHAR(30), #nome de usuario (ficticio)
+    _email VARCHAR(50), #email valido do usuario
+    _password VARCHAR(30), #senha do usuario
+    _inactive BOOLEAN DEFAULT 0, #status da conta do usuário
+    CONSTRAINT tbl_user_id_pk PRIMARY KEY (_id)
+);
+
+CREATE TABLE tbl_user_info ( #TABELA DE INFORMAÇÕES DE USUARIO
+	id_user INT UNSIGNED, #id correpondente do usuário
+    first_name VARCHAR(30), #primeiro nome do usuário
+    last_name VARCHAR(50), #sobrenome do usuário
+    date_birth DATE, #data de nascimento do usuário
+    _sex CHAR(1), #sexo do usuário: F (Feminino), M (Masculino) ou O (Outro ?)
+    _level INT DEFAULT 0, #nivel atual do usuario
 	total_exp INT DEFAULT 0, #exp total (acumulativo) do usuario
-    CONSTRAINT tbl_info_id_pk PRIMARY KEY (user_name),
-    CONSTRAINT tbl_info_user_name_fk FOREIGN KEY (user_name) 
-    REFERENCES tbl_user (user_name)
+    CONSTRAINT tbl_user_info_id_pk PRIMARY KEY (id_user)
 );
 
-#Mudar o sistema de codigos para algo mais randomizado
-CREATE TABLE tbl_group (
-	_code INT AUTO_INCREMENT,
-    _name VARCHAR(30),
-    CONSTRAINT tbl_group_id_pk PRIMARY KEY (_code)
+CREATE TABLE tbl_group ( #TABELA DE GRUPOS
+	_id INT UNSIGNED AUTO_INCREMENT,
+    _name VARCHAR(30), #nome do grupo
+    CONSTRAINT tbl_group_id_pk PRIMARY KEY (_id)
 );
 
-CREATE TABLE tbl_group_user (
-	code_group INT,
-    user_name VARCHAR(20),
-    CONSTRAINT tbl_group_user_id_pk PRIMARY KEY (code_group, user_name),
-    CONSTRAINT tbl_group_user_user_name_fk FOREIGN KEY (user_name)
-    REFERENCES tbl_user (user_name),
-    CONSTRAINT tbl_group_user_code_group_fk FOREIGN KEY (code_group)
-    REFERENCES tbl_group (_code) ON DELETE CASCADE
+CREATE TABLE tbl_user_group ( #TABELA DE GRUPOS DO USUÁRIO
+	id_group INT UNSIGNED, #id do curso
+    id_user INT UNSIGNED, #id do usuário participante do curso
+    CONSTRAINT tbl_user_group_id_pk PRIMARY KEY (id_group, id_user)
 );
 
-CREATE TABLE tbl_language ( #TBL DE LINGUAGENS
-	id INT AUTO_INCREMENT,
-    code_group INT,
-    _name VARCHAR(15), #nome da linguagem
-	_description VARCHAR(150), #descricao da linguagem
-    avatar VARCHAR(50) DEFAULT "None",
-    CONSTRAINT tbl_language_id_pk PRIMARY KEY (id),
-    CONSTRAINT tbl_language_code_group_fk FOREIGN KEY (code_group)
-    REFERENCES tbl_group (_code) ON DELETE CASCADE
+CREATE TABLE tbl_course ( #TABELA DE CURSOS
+	_id INT UNSIGNED AUTO_INCREMENT,
+    id_group INT UNSIGNED, #id do grupo ao o curso se refere
+	_name VARCHAR(15), #nome do curso/linguagem
+	_description VARCHAR(150), #descricao do curso/linguagem
+    _icon VARCHAR(50) DEFAULT "none", #icon do curso/linguagem
+	CONSTRAINT tbl_course_id_pk PRIMARY KEY (_id)
 );
 
-CREATE TABLE tbl_difficulty ( #TBL DE DIFICULDADES
-	id INT AUTO_INCREMENT,
-    _name VARCHAR(15), #nome da dificuldade
-    _description VARCHAR(150), #descricao da dificuldade
-    CONSTRAINT tbl_difficulty_id_pk PRIMARY KEY (id)
+CREATE TABLE tbl_stage ( #TABELA DE ETAPA P/APRENDIZADO
+	_id INT UNSIGNED AUTO_INCREMENT,
+    id_course INT UNSIGNED, #id do curso ao qual a etapa se refere
+    _name VARCHAR(100), #nome/titulo da etapa
+    CONSTRAINT tbl_stage_id_pk PRIMARY KEY (_id)
 );
 
-CREATE TABLE tbl_teory (
-	id INT AUTO_INCREMENT,
+CREATE TABLE tbl_teory ( #TABELA DE TEORIAS
+	_id INT UNSIGNED AUTO_INCREMENT,
+    id_stage INT UNSIGNED, #id da etapa ao qual a teoria se refere
     _name VARCHAR(50), #nome da teoria/titulo da teoria (para identificação)
-    teory_text VARCHAR(250), #texto da teoria
-	id_lang INT, #id da linguagem a qual a teoria se refere
-    id_diff INT, #id da dificuldade a qual a teoria se refere
-	CONSTRAINT tbl_teory_id_pk PRIMARY KEY (id),
-    CONSTRAINT tbl_teory_id_lang_fk FOREIGN KEY (id_lang)
-    REFERENCES tbl_language (id) ON DELETE CASCADE,
-    CONSTRAINT tbl_teory_id_diff_fk FOREIGN KEY (id_diff)
-    REFERENCES tbl_difficulty (id) ON DELETE CASCADE
+    _text VARCHAR(500), #texto teórico
+	CONSTRAINT tbl_teory_id_pk PRIMARY KEY (_id)
 );
 
-CREATE TABLE tbl_task ( #TBL DAS PERGUNTAS (SOLO)
-	id INT AUTO_INCREMENT,
-    _name VARCHAR(50), #nome da questão/titulo da questão (para identificação)
-    task_text VARCHAR(250), #texto da pergunta	
-	explanation_task VARCHAR(100), #explicacao da pergunta (Um resumo p/quando a pessoa errar)
-    # task_instruction VARCHAR(100) DEFAULT "", #dica para o usuário
-	id_lang INT, #id da linguagem a qual a pergunta se refere
-    id_diff INT, #id da dificuldade a qual a pergunta se refere
-	exp_task INT DEFAULT 0, #Cd pergunta dará (ou não) uma quantidade de exp que será adicionada ao exp_total da tabela user
-	CONSTRAINT tbl_task_id_pk PRIMARY KEY (id),
-    CONSTRAINT tbl_task_un UNIQUE (_name),
-    CONSTRAINT tbl_task_id_lang_fk FOREIGN KEY(id_lang)
-    REFERENCES tbl_language (id) ON DELETE CASCADE,
-    CONSTRAINT tbl_task_id_diff_fk FOREIGN KEY (id_diff)
-    REFERENCES tbl_difficulty (id) ON DELETE CASCADE
+CREATE TABLE tbl_operation ( #TBL DE OPERAÇÕES
+	_id INT UNSIGNED AUTO_INCREMENT,
+    _name VARCHAR(15), #nome da operação
+    _description VARCHAR(150), #descricao da operação
+    CONSTRAINT tbl_operation_id_pk PRIMARY KEY (_id)
 );
 
-CREATE TABLE tbl_teory_book ( #TBL DE RELAÇÃO ENTRE TEORIAS E O PERGUNTAS
-	id_teory INT, #id da teoria a qual a pergunta se refere
-    id_task INT, #id da pergunta a ser registrada em determinado curso
-    CONSTRAINT tbl_teory_book_id_pk PRIMARY KEY(id_teory, id_task),
-    CONSTRAINT tbl_teory_book_id_task_fk FOREIGN KEY(id_task)
-    REFERENCES tbl_task (id) ON DELETE CASCADE,
-    CONSTRAINT tbl_teory_book_id_teory_fk FOREIGN KEY(id_teory)
-    REFERENCES tbl_teory(id) ON DELETE CASCADE
+CREATE TABLE tbl_task ( #TABELA DAS TAREFAS
+	_id INT UNSIGNED AUTO_INCREMENT,
+    id_stage INT UNSIGNED, #id da etapa ao qual a tarefa se refere
+    id_operation INT UNSIGNED, #id do tipo de operação, usada p/identificação
+    _name VARCHAR(50), #nome da questão/titulo da tarefa
+    _text VARCHAR(250), #texto da tarefa	
+	_explanation VARCHAR(100), #explicacao da tarefa (Um resumo p/quando a pessoa errar)
+	_exp INT DEFAULT 0, #cd pergunta dará (ou não) uma qntd de exp que será adicionada ao total_exp da tabela info
+    CONSTRAINT tbl_task_id_pk PRIMARY KEY (_id)
+	# task_instruction VARCHAR(100) DEFAULT "", #dica para o usuário
 );
 
-# PRECISA CRIAR UM GATILHO PARA ADD AS INFO DAS TABELAS A SEGUIR ? -----------------------------------------------
-
-CREATE TABLE tbl_registration ( #TBL DA MATRICULA (RELACIONAMENTO)
-	id INT AUTO_INCREMENT,
-    user_name VARCHAR(20), #id do usuario que está "matriculado" em determinado curso
-    id_lang INT, #id da linguagem a qual o usuario está matriculado
-    id_diff INT, #id da dificuldade da linguagem referente a qual o usuario está matriculado
-    quest_active INT DEFAULT 0,
-    date_registration datetime DEFAULT now(), #data da matricula do usuario
-	CONSTRAINT tbl_registration_id_pk PRIMARY KEY(id),
-    CONSTRAINT tbl_registration_un UNIQUE (id_diff, id_lang, user_name),
-    CONSTRAINT tbl_registration_id_lang_fk FOREIGN KEY(id_lang)
-    REFERENCES tbl_language (id) ON DELETE CASCADE,
-    CONSTRAINT tbl_registration_id_diff_fk FOREIGN KEY (id_diff)
-    REFERENCES tbl_difficulty (id) ON DELETE CASCADE,
-    CONSTRAINT tbl_registration_id_user_fk FOREIGN KEY (user_name)
-    REFERENCES tbl_user (user_name)
+CREATE TABLE tbl_registration ( #TABELA DA MATRICULA DO CURSO (RELACIONAMENTO)
+	_id INT UNSIGNED AUTO_INCREMENT,
+    id_user INT UNSIGNED, #id do usuario que está "matriculado" em determinado curso
+    id_course INT UNSIGNED, #id do curso ao qual o registro se refere
+    date_registration DATETIME DEFAULT NOW(), #data da matricula do usuario
+    level_stage INT UNSIGNED DEFAULT (0), #estagio, por index, de onde o usuário parou
+    #no front, é criado uma resquisição de todos os stages, ordenados por ids, e o campo irá determinar onde ele parou atraves do index
+	CONSTRAINT tbl_registration_id_pk PRIMARY KEY(_id)
 );
-
-/*
-CREATE TABLE tbl_task_book ( #TBL DE RELAÇÃO ENTRE PERGUNTAS E O CURSO
-	id_registration INT, #id do curso em que o usuario está matriculado (linguagem + dificuldade)
-    id_task INT, #id da pergunta a ser registrada em determinado curso
-    CONSTRAINT tbl_task_book_id_pk PRIMARY KEY(id_registration, id_task),
-    CONSTRAINT tbl_task_book_id_task_fk FOREIGN KEY(id_task)
-    REFERENCES tbl_task (id) ON DELETE CASCADE,
-    CONSTRAINT tbl_task_book_id_registration_fk FOREIGN KEY(id_registration)
-    REFERENCES tbl_registration(id) ON DELETE CASCADE
-);
-*/
 
 # ---------------------------------------------------------------------------------------------------------------
+#TABELAS DE RESPOSTAS, DIVIDIDAS EM NÍVEIS DE DIFICULDADE
 
-#Nível basico: Preencher com um padrão de quiz (Answer_text faz parte das alternativas)
-CREATE TABLE tbl_answer_basic ( #TBL DE RESPOSTAS O NÍVEL BASICO P/DETERMINADA PERGUNTA DE DETERMINADO CURSO
-	id INT AUTO_INCREMENT,
-    answer_text VARCHAR(100), #resposta correta (Completa), usada para validação
-    id_task INT, #id da pergunta a qual a resposta se refere
-    alternativeA VARCHAR(100), #alternativa A
-    alternativeB VARCHAR(100), #alternativa B 
-    alternativeC VARCHAR(100), #alternativa C
-    CONSTRAINT tbl_answer_basic_id_pk PRIMARY KEY(id),
-    CONSTRAINT tbl_answer_basic_un UNIQUE (id_task),
-	CONSTRAINT tbl_answer_basic_id_task_fk FOREIGN KEY (id_task)
-    REFERENCES tbl_task (id) ON DELETE CASCADE
+#Nível basico: Preencher com um padrão de quiz (_text faz parte das alternativas)
+CREATE TABLE tbl_answer_basic ( #TABELA DE RESPOSTAS DO NÍVEL BASICO P/DETERMINADA TAREFA
+	_id INT UNSIGNED AUTO_INCREMENT,
+    id_task INT UNSIGNED, #id da tarefa a qual a resposta se refere
+    _text VARCHAR(50), #resposta correta (Completa), usada para validação
+    _alternativeA VARCHAR(50), #alternativa A
+    _alternativeB VARCHAR(50), #alternativa B 
+    _alternativeC VARCHAR(50), #alternativa C
+    CONSTRAINT tbl_answer_basic_id_pk PRIMARY KEY(_id)
 );
 
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
-#Nível Intermediario: reencher as alternativas com, no maximo, 3 palavras, referente a programação (Com excessão da answer_text)
-CREATE TABLE tbl_answer_Intermediary ( #TBL DE RESPOSTAS DO NÍVEL INTERMEDIARIO P/DETERMINADA PERGUNTA DE DETERMINADO CURSO
-	id INT AUTO_INCREMENT,
-    answer_text VARCHAR(200), #resposta correta (Completa), usada para apenas para validação
-    id_task INT, #id da pergunta a qual a resposta se refere
-    alternativeA VARCHAR(30), #alternativa A
-    alternativeB VARCHAR(30), #alternativa B 
-    alternativeC VARCHAR(30), #alternativa C
-    alternativeD VARCHAR(30), #alternativa D
-    alternativeE VARCHAR(30), #alternativa E
-    CONSTRAINT tbl_answer_intermediary_id_pk PRIMARY KEY(id),
-    CONSTRAINT tbl_answer_intermediary_un UNIQUE (id_task),
-	CONSTRAINT tbl_answer_intermediary_id_task_fk FOREIGN KEY (id_task)
-    REFERENCES tbl_task (id) ON DELETE CASCADE
+#Nível Intermediario: Preencher as alternativas com, no maximo, 3 palavras, referente a programação (Com excessão da _text)
+CREATE TABLE tbl_answer_Intermediary ( #TABELA DE RESPOSTAS DO NÍVEL INTERMEDIARIO P/DETERMINADA TAREFA
+	_id INT UNSIGNED AUTO_INCREMENT,
+    id_task INT UNSIGNED, #id da tarefa a qual a resposta se refere
+    _text VARCHAR(300), #resposta correta, usada para apenas para validação
+    _alternativeA VARCHAR(30), #alternativa A
+    _alternativeB VARCHAR(30), #alternativa B 
+    _alternativeC VARCHAR(30), #alternativa C
+    _alternativeD VARCHAR(30), #alternativa D
+    _alternativeE VARCHAR(30), #alternativa E
+    CONSTRAINT tbl_answer_intermediary_id_pk PRIMARY KEY(_id)
 );
 
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
-#Nível avançado: preencher o campo com a resposta correta (Completa) e usar c/validação no front
-CREATE TABLE tbl_answer_advanced ( #TBL DE RESPOSTAS DO NÍVEL AVANÇADO P/DETERMINADA PERGUNTA DE DETERMINADO CURSO
-	id INT AUTO_INCREMENT,
-    answer_text VARCHAR(200), #resposta correta (Completa), usada para validação
-    id_task INT, #id da pergunta a qual a resposta se refere
-    CONSTRAINT tbl_answer_advanced_id_pk PRIMARY KEY(id),
-    CONSTRAINT tbl_answer_advanced_un UNIQUE (id_task),
-	CONSTRAINT tbl_answer_advanced_id_task_fk FOREIGN KEY (id_task)
-    REFERENCES tbl_task (id) ON DELETE CASCADE
+#Nível avançado: Preencher o campo _code com o código completo (P/ser desmontada no front, usada p/validação e alternativas)
+CREATE TABLE tbl_answer_advanced ( #TABELA DE RESPOSTAS DO NÍVEL AVANÇADO P/DETERMINADA TAREFA
+	_id INT AUTO_INCREMENT,
+    id_task INT UNSIGNED, #id da tarefa a qual a resposta se refere
+    _code VARCHAR(200), #codigo completo
+    CONSTRAINT tbl_answer_advanced_id_pk PRIMARY KEY(_id)
 );
+
+# ------------------------------------------------------------------------------------------------------------------
+#TABELAS QUE NECESSITAM DE GATILHOS (TRIGGERS) ?
+/*
+CREATE TABLE tbl_teory_book ( #TBL DE RELAÇÃO ENTRE TEORIAS E O ESTAGIO
+    id_stage INT UNSIGNED, #id da pergunta a ser registrada em determinado curso
+	id_teory INT UNSIGNED, #id da teoria a qual a pergunta se refere
+    CONSTRAINT tbl_teory_book_id_pk PRIMARY KEY(id_stage, id_teory)
+);
+
+CREATE TABLE tbl_task_book ( #TBL DE RELAÇÃO ENTRE TAREFAS E O ESTAGIO
+	id_stage INT UNSIGNED, #id do stagio em que a pergunta se encontra
+    id_task INT UNSIGNED, #id da task a ser registrada em determinado curso
+    CONSTRAINT tbl_task_book_id_pk PRIMARY KEY(id_stage, id_task)
+);
+*/

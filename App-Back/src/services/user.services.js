@@ -1,39 +1,43 @@
 import database from '../repository/connectMysql.js';
 
 
-async function createUser(userName, userEmail, userPassword, typeUser) {
+async function createUser(userEmail, userName, userPassword, userType) {
 
-  const sql = `insert into tbl_user (user_name, user_email, user_password, user_type) values (?, ?, ?, ?);`
+  let sql = `INSERT INTO tbl_user (_email, _name, _password, id_type) VALUES (?, ?, ?, ?)`
 
-  const dataUser = [userName, userEmail, userPassword, typeUser];
+  const dataUser = [userEmail, userName, userPassword, userType];
 
   const conn = await database.connect();
 
   await conn.query(sql, dataUser);
 
+  sql = 'SELECT * FROM tbl_user WHERE _name = ?'
+  const [rows] = await conn.query(sql, userName);
+
   conn.end();
+  return rows
 }
 
-async function updateUser(userName, userEmail, userPassword, typeUser) {
-  const sql = "update tbl_user set user_name = ?, user_email = ?, user_password = ?, user_type = ? where user_name = ?;"
+async function updateUser(userName, userEmail, userPassword, userId) {
+  const sql = "UPDATE tbl_user SET _name = ?, _email = ?, _password = ? WHERE _id = ?"
 
-  const dataUser = [userName, userEmail, userPassword, typeUser];
+  const dataUser = [userName, userEmail, userPassword, userId];
 
   const conn = await database.connect();
   await conn.query(sql, dataUser);
   conn.end();
 }
 
-async function deleteUser(userName) {
-  const sql = "update tbl_user set user_inactive = 1 where user_name = ?;";
+async function deleteUser(userId) {
+  const sql = "DELETE FROM tbl_user WHERE _id = ?";
 
   const conn = await database.connect();
-  await conn.query(sql, userName);
+  await conn.query(sql, userId);
   conn.end();
 }
 
-async function getUser() {
-  const sql = "select * from tbl_user where user_inactive = 0";
+async function getAllUser() {
+  const sql = "SELECT * FROM tbl_user WHERE _inactive = 0";
 
   const conn = await database.connect();
   const [rows] = await conn.query(sql);
@@ -41,26 +45,36 @@ async function getUser() {
   return rows;
 }
 
-async function getUserEmail(userEmail) {
-  const sql = "select user_email, user_name, user_type, user_password from tbl_user where user_email = ?";
+async function inactiveUser(userId) {
+  const sql = "UPDATE tbl_user set _inactive = 1 WHERE _id = ?";
 
   const conn = await database.connect();
-  const [rows] = await conn.query(sql, userEmail);
+  await conn.query(sql, userId);
+  conn.end();
+}
+
+async function getUniqueUser(userId) {
+  const sql = "SELECT _email, _name, id_type, _password FROM tbl_user WHERE _id = ?";
+
+  const conn = await database.connect();
+  const [rows] = await conn.query(sql, userId);
   conn.end();
   return rows;
 }
 
-async function getInfoUnEmail(userEmail) {
-  const sql = "select a.user_name, a.user_email, a.user_password, b.first_name, b.last_name, b.date_birth, b.user_sex, b.user_level, b.total_exp, a.user_inactive from tbl_user as a inner join tbl_info as b on b.user_name = a.user_name where a.user_email = ?;";
+async function getUserInfo(userId) {
+  const sql = "SELECT * FROM vw_user_info WHERE id_user = ?"
 
   const conn = await database.connect();
-  const [rows] = await conn.query(sql, userEmail);
+  const [rows] = await conn.query(sql, userId);
   conn.end();
   return rows;
 }
+
+// -------------------------- USER LOGIN -------------------------------------------------
 
 async function handleLogin(userEmail, userPassword) {
-  const sql = 'select user_email, user_password from tbl_user where user_email = ? and user_password = ?;'
+  const sql = 'SELECT _email, _password FROM tbl_user WHERE _email = ? AND _password = ?;'
   const dataLogin = [userEmail, userPassword];
 
   const conn = await database.connect();
@@ -70,12 +84,15 @@ async function handleLogin(userEmail, userPassword) {
   return rows;
 }
 
-async function handleVerifyEmail(userEmail) {
-  const sql = 'select * from tbl_user where user_email = ?;'
-  const dataLogin = [userEmail];
+async function handleVerification(dataTest) {
+  let sql = 'SELECT * FROM tbl_user WHERE _email = ?'
 
-  const conn = await database.connect();
-  const [rows] = await conn.query(sql, dataLogin);
+  if (dataTest.length > 1) {
+    sql = 'SELECT * FROM tbl_user WHERE _email = ? OR _name = ?;'
+  }
+
+  const conn = await database.connect()
+  const [rows] = await conn.query(sql, dataTest)
 
   conn.end();
   return rows;
@@ -85,9 +102,10 @@ export default {
   createUser,
   updateUser,
   deleteUser,
-  getUser,
-  getUserEmail,
-  getInfoUnEmail,
-  handleVerifyEmail,
+  getAllUser,
+  getUniqueUser,
+  getUserInfo,
+  inactiveUser,
+  handleVerification,
   handleLogin
 };

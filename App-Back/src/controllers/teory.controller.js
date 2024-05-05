@@ -4,10 +4,10 @@ import db from '../services/teory.services.js'
 const routes = express.Router();
 
 routes.post('/', async (request, response) => {
-  const { name, teory, idLanguage, idDifficulty } = request.body;
+  const { name, teory, stageId } = request.body;
 
   try {
-    await db.createTeory(name, teory, idLanguage, idDifficulty);
+    await db.createTeory(name, teory, stageId);
 
     return response.status(201).send({ message: 'Teoria adicionada com sucesso.' });
   } catch (error) {
@@ -18,9 +18,9 @@ routes.post('/', async (request, response) => {
 
 routes.put('/', async (request, response) => {
   try {
-    const { name, teory, idLanguage, idDifficulty, idTeory } = request.body;
+    const { name, teory, stageId, teoryId } = request.body;
 
-    await db.updateTeory(name, teory, idLanguage, idDifficulty, idTeory);
+    await db.updateTeory(name, teory, stageId, teoryId);
 
     response.status(200).send({ message: `Teoria atualizada com sucesso` })
   } catch (error) {
@@ -30,11 +30,11 @@ routes.put('/', async (request, response) => {
 })
 
 
-routes.delete('/:idTeory', async (request, response) => {
+routes.delete('/:teoryId', async (request, response) => {
   try {
-    const { idTeory } = request.params;
+    const { teoryId } = request.params;
 
-    await db.deleteTeory(idTeory);
+    await db.deleteTeory(teoryId);
 
     return response.status(200).send({ message: `Teoria deletado com sucesso.` })
 
@@ -50,28 +50,62 @@ routes.get('/', async (request, response) => {
     if (teory.length > 0) {
       return response.status(200).send({ teory: teory });
     } else {
-      return response.status(204);
+      return response.status(204).end();
     }
 
   } catch (error) {
-    response.status(500).send({ message: `Erro ao chamar a Linguagem. ${error}` })
+    response.status(500).send({ message: `Erro ao buscar a teoria. ${error}` })
   }
 })
 
-routes.get('/un/:idTeory', async (request, response) => {
+routes.get('/unique/:teoryId', async (request, response) => {
   try {
-    const { idTeory } = request.params;
+    const { teoryId } = request.params;
 
-    const teory = await db.getTeory(idTeory);
+    const teory = await db.getUniqueTeory(teoryId);
 
     if (teory.length > 0) {
       return response.status(200).send({ teory: teory });
     } else {
-      return response.status(204);
+      return response.status(204).end();
     }
 
   } catch (error) {
-    response.status(500).send({ message: `Erro ao chamar a teoria. ${error}` })
+    response.status(500).send({ message: `Erro ao buscar a teoria. ${error}` })
+  }
+})
+
+routes.get('/by/group/:groupId', async (request, response) => {
+  try {
+    const { groupId } = request.params;
+
+    const teory = await db.getTeoryByGroup(groupId);
+
+    if (teory.length > 0) {
+      return response.status(200).send({ teory: teory });
+    } else {
+      return response.status(204).end();
+    }
+
+  } catch (error) {
+    response.status(500).send({ message: `Erro ao buscar a teoria. ${error}` })
+  }
+})
+
+routes.get('/by/stage/:stageId', async (request, response) => {
+  try {
+    const { stageId } = request.params;
+
+    const teory = await db.getTeoryByStage(stageId);
+
+    if (teory.length > 0) {
+      return response.status(200).send({ teory: teory });
+    } else {
+      return response.status(204).end();
+    }
+
+  } catch (error) {
+    response.status(500).send({ message: `Erro ao buscar a teoria. ${error}` })
   }
 })
 

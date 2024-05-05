@@ -1,10 +1,10 @@
 import database from '../../repository/connectMysql.js';
 
-async function createAnswer(answer, idTask) {
+async function createAnswer(code, taskId) {
 
-  const sql = `insert into tbl_answer_advanced_advanced (answer_text, id_task) values (?, ?);`
+  const sql = `INSERT INTO tbl_answer_advanced (_code, id_task) VALUES (?, ?)`
 
-  const dataAnswer = [answer, idTask];
+  const dataAnswer = [code, taskId];
 
   const conn = await database.connect();
 
@@ -13,26 +13,26 @@ async function createAnswer(answer, idTask) {
   conn.end();
 }
 
-async function updateAnswer(answer, idAnswer) {
-  const sql = "update tbl_answer_advanced set answer_text = ? where id = ?"
+async function updateAnswer(code, answerId) {
+  const sql = "UPDATE tbl_answer_advanced SET _code = ? WHERE _id = ?"
 
-  const dataAnswer = [answer, idAnswer];
+  const dataAnswer = [code, answerId];
 
   const conn = await database.connect();
   await conn.query(sql, dataAnswer);
   conn.end();
 }
 
-async function deleteAnswer(idAnswer) {
-  const sql = "delete from tbl_answer_advanced where id = ?";
+async function deleteAnswer(answerId) {
+  const sql = "DELETE FROM tbl_answer_advanced WHERE _id = ?";
 
   const conn = await database.connect();
-  await conn.query(sql, idAnswer);
+  await conn.query(sql, answerId);
   conn.end();
 }
 
 async function getAllAnswer() {
-  const sql = "select * from tbl_answer_advanced";
+  const sql = "SELECT * FROM tbl_answer_advanced";
 
   const conn = await database.connect();
   const [rows] = await conn.query(sql);
@@ -40,20 +40,20 @@ async function getAllAnswer() {
   return rows;
 }
 
-async function getAnswer(idAnswer) {
-  const sql = "select * from tbl_answer_advanced where id = ?";
+async function getUniqueAnswer(answerId) {
+  const sql = "SELECT * FROM tbl_answer_advanced WHERE _id = ?";
 
   const conn = await database.connect();
-  const [rows] = await conn.query(sql, idAnswer);
+  const [rows] = await conn.query(sql, answerId);
   conn.end();
   return rows;
 }
 
-async function getAnswerTask(idTask) {
-  const sql = "select * from tbl_answer_advanced where id_task = ?";
+async function getAnswerByTask(taskId) {
+  const sql = "SELECT * FROM tbl_answer_advanced WHERE id_task = ?";
 
   const conn = await database.connect();
-  const [rows] = await conn.query(sql, idTask);
+  const [rows] = await conn.query(sql, taskId);
   conn.end();
   return rows;
 }
@@ -62,7 +62,7 @@ export default {
   createAnswer,
   updateAnswer,
   deleteAnswer,
-  getAnswer,
+  getUniqueAnswer,
   getAllAnswer,
-  getAnswerTask
+  getAnswerByTask
 };

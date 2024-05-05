@@ -6,10 +6,10 @@ import db from '../../services/answerServices/intermediary.services.js'
 const routes = express.Router();
 
 routes.post('/', async (request, response) => {
-  const { answer, idTask, altA, altB, altC, altD, altE } = request.body;
+  const { answer, taskId, altA, altB, altC, altD, altE } = request.body;
 
   try {
-    await db.createAnswer(answer, idTask, altA, altB, altC, altD, altE);
+    await db.createAnswer(answer, taskId, altA, altB, altC, altD, altE);
 
     return response.status(201).send({ message: 'Resposta adicionada com sucesso.' });
   } catch (error) {
@@ -20,9 +20,9 @@ routes.post('/', async (request, response) => {
 
 routes.put('/', async (request, response) => {
   try {
-    const { answer, idTask, altA, altB, altC, altD, altE, idAnswer } = request.body;
+    const { answer, taskId, altA, altB, altC, altD, altE, answerId } = request.body;
 
-    await db.updateAnswer(answer, idTask, altA, altB, altC, altD, altE, idAnswer);
+    await db.updateAnswer(answer, taskId, altA, altB, altC, altD, altE, answerId);
 
     response.status(200).send({ message: `Resposta atualizada com sucesso` })
   } catch (error) {
@@ -32,11 +32,11 @@ routes.put('/', async (request, response) => {
 })
 
 
-routes.delete('/:idAnswer', async (request, response) => {
+routes.delete('/:answerId', async (request, response) => {
   try {
-    const { idAnswer } = request.params;
+    const { answerId } = request.params;
 
-    await db.deleteAnswer(idAnswer);
+    await db.deleteAnswer(answerId);
 
     return response.status(200).send({ message: `Resposta deletado com sucesso.` })
 
@@ -60,11 +60,11 @@ routes.get('/', async (request, response) => {
   }
 })
 
-routes.get('/un/:idAnswer', async (request, response) => {
+routes.get('/unique/:answerId', async (request, response) => {
   try {
-    const { idAnswer } = request.params;
+    const { answerId } = request.params;
 
-    const answer = await db.getAnswer(idAnswer);
+    const answer = await db.getUniqueAnswer(answerId);
 
     if (answer.length > 0) {
       return response.status(200).send({ answer: answer });
@@ -77,11 +77,11 @@ routes.get('/un/:idAnswer', async (request, response) => {
   }
 })
 
-routes.get('/unTask/:idTask', async (request, response) => {
+routes.get('/by/task/:taskId', async (request, response) => {
   try {
-    const { idTask } = request.params;
+    const { taskId } = request.params;
 
-    const answer = await db.getAnswerTask(idTask);
+    const answer = await db.getAnswerByTask(taskId);
 
     if (answer.length > 0) {
       return response.status(200).send({ answer: answer });

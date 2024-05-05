@@ -1,11 +1,11 @@
 import database from '../../repository/connectMysql.js';
 
 
-async function createAnswer(answer, idTask, altA, altB, altC, altD, altE) {
+async function createAnswer(answer, taskId, altA, altB, altC, altD, altE) {
 
-  const sql = `insert into tbl_answer_intermediary_intermediary (answer_text, id_task, alternativeA, alternativeB, alternativeC, alternativeD, alternativeE) values (?, ?, ?, ?, ?, ?, ?);`
+  const sql = `INSERT INTO tbl_answer_intermediary (_text, id_task, _alternativeA, _alternativeB, _alternativeC, _alternativeD, _alternativeE) VALUES (?, ?, ?, ?, ?, ?, ?);`
 
-  const dataAnswer = [answer, idTask, altA, altB, altC, altD, altE];
+  const dataAnswer = [answer, taskId, altA, altB, altC, altD, altE];
 
   const conn = await database.connect();
 
@@ -14,26 +14,26 @@ async function createAnswer(answer, idTask, altA, altB, altC, altD, altE) {
   conn.end();
 }
 
-async function updateAnswer(answer, idTask, altA, altB, altC, altD, altE, idAnswer) {
-  const sql = "update tbl_answer_intermediary set answer_text = ?, alternativeA = ?, alternativeB = ?, alternativeC = ?, alternativeD = ?, alternativeE = ? where id = ?"
+async function updateAnswer(answer, taskId, altA, altB, altC, altD, altE, answerId) {
+  const sql = "UPDATE tbl_answer_intermediary SET answer_text = ?, _alternativeA = ?, _alternativeB = ?, _alternativeC = ?, _alternativeD = ?, _alternativeE = ? WHERE _id = ?"
 
-  const dataAnswer = [answer, idTask, altA, altB, altC, altD, altE, idAnswer];
+  const dataAnswer = [answer, taskId, altA, altB, altC, altD, altE, answerId];
 
   const conn = await database.connect();
   await conn.query(sql, dataAnswer);
   conn.end();
 }
 
-async function deleteAnswer(idAnswer) {
-  const sql = "delete from tbl_answer_intermediary where id = ?";
+async function deleteAnswer(answerId) {
+  const sql = "DELETE FROM tbl_answer_intermediary WHERE _id = ?";
 
   const conn = await database.connect();
-  await conn.query(sql, idAnswer);
+  await conn.query(sql, answerId);
   conn.end();
 }
 
 async function getAllAnswer() {
-  const sql = "select * from tbl_answer_intermediary";
+  const sql = "SELECT * FROM tbl_answer_intermediary";
 
   const conn = await database.connect();
   const [rows] = await conn.query(sql);
@@ -41,20 +41,20 @@ async function getAllAnswer() {
   return rows;
 }
 
-async function getAnswer(idAnswer) {
-  const sql = "select * from tbl_answer_intermediary where id = ?";
+async function getUniqueAnswer(answerId) {
+  const sql = "SELECT * FROM tbl_answer_intermediary WHERE _id = ?";
 
   const conn = await database.connect();
-  const [rows] = await conn.query(sql, idAnswer);
+  const [rows] = await conn.query(sql, answerId);
   conn.end();
   return rows;
 }
 
-async function getAnswerTask(idTask) {
-  const sql = "select * from tbl_answer_intermediary where id_task = ?";
+async function getAnswerByTask(taskId) {
+  const sql = "SELECT * from tbl_answer_intermediary WHERE id_task = ?";
 
   const conn = await database.connect();
-  const [rows] = await conn.query(sql, idTask);
+  const [rows] = await conn.query(sql, taskId);
   conn.end();
   return rows;
 }
@@ -63,7 +63,7 @@ export default {
   createAnswer,
   updateAnswer,
   deleteAnswer,
-  getAnswer,
+  getUniqueAnswer,
   getAllAnswer,
-  getAnswerTask
+  getAnswerByTask
 };

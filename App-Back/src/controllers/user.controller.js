@@ -5,57 +5,22 @@ const routes = express.Router();
 
 routes.post('/register', async (request, response) => {
   try {
-    const { userName, userEmail, userPassword, typeUser } = request.body;
+    const { userEmail, userName, userPassword, userType } = request.body;
 
-    await db.createUser(userName, userEmail, userPassword, typeUser);
+    const user = await db.createUser(userEmail, userName, userPassword, userType);
 
-    return response.status(201).send({ message: 'Usuario criado com sucesso.' });
+    return response.status(201).send({ message: 'Usuario criado com sucesso.', user: user });
   } catch (error) {
     return response.status(500).send({ message: `Erro no servidor: ${error}` })
   }
 
 })
 
-routes.get('/verify/:userEmail', async (request, response) => {
-  try {
-    const { userEmail } = request.params;
-
-    const verifyTest = await db.handleVerifyEmail(userEmail);
-
-    if (verifyTest.length < 1) {
-      response.status(200).send({ message: 'Email não cadastrado.' });
-    } else {
-      return response.status(401).send({ message: 'Email já cadastrado.' });
-    }
-
-  } catch (error) {
-    response.status(500).send({ message: `Erro ao buscar os dados. ${error}` })
-  }
-});
-
-routes.post('/validation', async (request, response) => {
-  const { userEmail, userPassword } = request.body;
-
-  const emailTest = await db.handleVerifyEmail(userEmail);
-
-  if (emailTest.length < 1) {
-    return response.status(401).send({ message: 'Email não cadastrado.' });
-  }
-
-  const user = await db.handleLogin(userEmail, userPassword);
-
-  if (user.length < 1) {
-    response.status(401).send({ message: 'Email ou senha inválido.' });
-  } else {
-    response.status(200).send({ message: 'Login feito com sucesso.' });
-  }
-});
-
 routes.put('/', async (request, response) => {
   try {
-    const { userName, userEmail, userPassword, typeUser } = request.body;
+    const { userName, userEmail, userPassword, userId } = request.body;
 
-    await db.updateUser({ userName, userEmail, userPassword, typeUser });
+    await db.updateUser(userName, userEmail, userPassword, userId);
 
     response.status(200).send({ message: `Dados do usuário ${userName} atualizados com sucesso` })
   } catch (error) {
@@ -64,12 +29,25 @@ routes.put('/', async (request, response) => {
 
 })
 
-
-routes.delete('/:userName', async (request, response) => {
+routes.put('/inactive', async (request, response) => {
   try {
-    const { userName } = request.params;
+    const { userId } = request.body;
 
-    await db.deleteUser(userName);
+    await db.inactiveUser(userId);
+
+    response.status(200).send({ message: `Usuário ${userId} desativado com sucesso` })
+  } catch (error) {
+    response.status(500).send({ message: `Erro ao atualizar os dados. ${error}` });
+  }
+
+})
+
+
+routes.delete('/:userId', async (request, response) => {
+  try {
+    const { userId } = request.params;
+
+    await db.deleteUser(userId);
 
     return response.status(200).send({ message: `Usuario deletado com sucesso.` })
 
@@ -80,51 +58,96 @@ routes.delete('/:userName', async (request, response) => {
 
 routes.get('/', async (request, response) => {
   try {
-    const users = await db.getUser();
+    const users = await db.getAllUser();
 
     if (users.length > 0) {
       return response.status(200).send({ message: users });
     } else {
-      return response.status(204);
+      return response.status(204).end();
     }
 
   } catch (error) {
-    response.status(500).send({ message: `Erro ao chamar os dados. ${error}` })
+    response.status(500).send({ message: `Erro ao buscar os dados. ${error}` })
   }
 })
 
-routes.get('/un/:userEmail', async (request, response) => {
+routes.get('/unique/:userId', async (request, response) => {
   try {
-    const { userEmail } = request.params;
+    const { userId } = request.params;
 
-    const users = await db.getUserEmail(userEmail);
+    const users = await db.getUniqueUser(userId);
 
     if (users.length > 0) {
       return response.status(200).send({ user: users });
     } else {
-      return response.status(204);
+      return response.status(204).end();
     }
 
   } catch (error) {
-    response.status(500).send({ message: `Erro ao chamar os dados. ${error}` })
+    response.status(500).send({ message: `Erro ao buscar os dados. ${error}` })
   }
 })
 
-routes.get('/infoUn/:userEmail', async (request, response) => {
+routes.get('/userInfo/:userId', async (request, response) => {
   try {
-    const { userEmail } = request.params;
+    const { userId } = request.params;
 
-    const users = await db.getInfoUnEmail(userEmail);
+    const users = await db.getUserInfo(userId);
 
     if (users.length > 0) {
       return response.status(200).send({ user: users });
     } else {
-      return response.status(204);
+      return response.status(204).end();
     }
 
   } catch (error) {
-    response.status(500).send({ message: `Erro ao chamar os dados. ${error}` })
+    response.status(500).send({ message: `Erro ao buscar os dados. ${error}` })
   }
 })
+
+//LOGIN --------------------------------------------------------------------------
+
+routes.post('/validation', async (request, response) => {
+  const { userEmail, userPassword } = request.body;
+  const dataTest = [userEmail]
+
+  const emailTest = await db.handleVerification([userEmail]);
+
+  if (emailTest.length > 1) {
+    return response.status(401).send({ message: 'Email já cadastrado.' });
+  }
+
+  const user = await db.handleLogin(userEmail, userPassword);
+
+  if (user.length < 1) {
+    response.status(401).send({ message: 'Email ou senha inválido.' });
+  } else {
+    response.status(200).send({
+      message: 'Login realizado com sucesso.',
+      user: emailTest
+    });
+  }
+});
+
+routes.get('/verify/:dataTest', async (request, response) => {
+  try {
+    let { dataTest } = request.params;
+
+    if (dataTest.includes(",")) {
+      dataTest = dataTest.split(",")
+    }
+
+    const verifyTest = await db.handleVerification(dataTest);
+
+    if (verifyTest.length < 1) {
+      response.status(200).send({ message: 'Email/Usuário não cadastrado.' });
+    } else {
+      return response.status(401).send({ message: 'Email/Usuário já cadastrado.' });
+    }
+
+  } catch (error) {
+    response.status(500).send({ message: `Erro ao buscar os dados. ${error}` })
+  }
+});
 
 export default routes;

@@ -16,42 +16,29 @@ routes.post('/', async (request, response) => {
 
 })
 
-routes.post('/groupUser', async (request, response) => {
-    const { idGroup, userName } = request.body;
-
-    try {
-        await db.createGroupUser(idGroup, userName);
-
-        return response.status(201).send({ message: 'Usuário adicionado ao grupo com sucesso.' });
-    } catch (error) {
-        return response.status(500).send({ message: `Erro no servidor: ${error}` })
-    }
-
-})
-
 routes.put('/', async (request, response) => {
     try {
-        const { name, idGroup } = request.body;
+        const { name, groupId } = request.body;
 
-        await db.updateGroup(name, idGroup);
+        await db.updateGroup(name, groupId);
 
-        response.status(200).send({ message: `Grupo atualizada com sucesso` })
+        response.status(200).send({ message: `Grupo atualizado com sucesso` })
     } catch (error) {
         response.status(500).send({ message: `Erro ao atualizar o Grupo. ${error}` });
     }
 
 })
 
-routes.delete('/:idGroup', async (request, response) => {
+routes.delete('/:groupId', async (request, response) => {
     try {
-        const { idGroup } = request.params;
+        const { groupId } = request.params;
 
-        await db.deleteGroup(idGroup);
+        await db.deleteGroup(groupId);
 
         return response.status(200).send({ message: `Grupo deletado com sucesso.` })
 
     } catch (error) {
-        response.status(500).send({ message: `Erro ao excluir o Grupo. ${error}` })
+        response.status(500).send({ message: `Erro ao deletar o Grupo. ${error}` })
     }
 })
 
@@ -62,34 +49,31 @@ routes.get('/', async (request, response) => {
         if (group.length > 0) {
             return response.status(200).send({ group: group });
         } else {
-            return response.status(204);
+            return response.status(204).end();
         }
 
     } catch (error) {
-        response.status(500).send({ message: `Erro ao chamar os Grupo. ${error}` })
+        response.status(500).send({ message: `Erro ao buscar os Grupo. ${error}` })
     }
 })
 
-routes.get('/un/:idGroup', async (request, response) => {
+routes.post('/userGroup', async (request, response) => {
+    const { groupId, userId } = request.body;
+
     try {
-        const { idGroup } = request.params;
-        const group = await db.getGroup(idGroup);
+        await db.createUserGroup(groupId, userId);
 
-        if (group.length > 0) {
-            return response.status(200).send({ group: group });
-        } else {
-            return response.status(204);
-        }
-
+        return response.status(201).send({ message: 'Usuário adicionado ao grupo com sucesso.' });
     } catch (error) {
-        response.status(500).send({ message: `Erro ao chamar os Grupo. ${error}` })
+        return response.status(500).send({ message: `Erro no servidor: ${error}` })
     }
+
 })
 
-routes.get('/userGroups/:userName', async (request, response) => {
+routes.get('/unique/:groupId', async (request, response) => {
     try {
-        const { userName } = request.params;
-        const group = await db.getAllGroupUserJoin(userName);
+        const { groupId } = request.params;
+        const group = await db.getUniqueGroup(groupId);
 
         if (group.length > 0) {
             return response.status(200).send({ group: group });
@@ -98,7 +82,24 @@ routes.get('/userGroups/:userName', async (request, response) => {
         }
 
     } catch (error) {
-        response.status(500).send({ message: `Erro ao chamar os Grupo. ${error}` })
+        response.status(500).send({ message: `Erro ao buscar os Grupo. ${error}` })
+    }
+})
+
+routes.get('/userGroups/:userId', async (request, response) => {
+    try {
+        const { userId } = request.params;
+        // console.log(userId)
+        const group = await db.getAllUserGroup(userId);
+
+        if (group.length > 0) {
+            return response.status(200).send({ group: group });
+        } else {
+            return response.status(204).end();
+        }
+
+    } catch (error) {
+        response.status(500).send({ message: `Erro ao buscar os Grupo. ${error}` })
     }
 })
 

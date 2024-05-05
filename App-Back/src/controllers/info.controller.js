@@ -4,12 +4,12 @@ import db from '../services/info.services.js'
 const routes = express.Router();
 
 routes.post('/', async (request, response) => {
-  const { userName, firstName, lastName, userDate, userSex } = request.body;
+  const { firstName, lastName, userDate, userSex, userId } = request.body;
 
   try {
-    await db.createInfo(userName, firstName, lastName, userDate, userSex);
+    await db.createInfo(firstName, lastName, userDate, userSex, userId);
 
-    return response.status(201).send({ message: 'Informação adicionada com sucesso.' });
+    return response.status(201).send({ message: 'Informações do usuário adicionada com sucesso.' });
   } catch (error) {
     return response.status(500).send({ message: `Erro no servidor: ${error}` })
   }
@@ -17,11 +17,11 @@ routes.post('/', async (request, response) => {
 
 routes.put('/', async (request, response) => {
   try {
-    const { firstName, lastName, userDate, userSex, userName } = request.body;
+    const { firstName, lastName, userDate, profileImage, userSex, userId } = request.body;
 
-    await db.updateInfo({ firstName, lastName, userDate, userSex, userName });
+    await db.updateInfo(firstName, lastName, userDate, profileImage, userSex, userId);
 
-    response.status(200).send({ message: `Informações do usuário ${userName} atualizados com sucesso` })
+    response.status(200).send({ message: `Informações do usuário ${userId} atualizados com sucesso` })
   } catch (error) {
     response.status(500).send({ message: `Erro ao atualizar os dados. ${error}` });
   }
@@ -29,11 +29,11 @@ routes.put('/', async (request, response) => {
 })
 
 
-routes.delete('/:userName', async (request, response) => {
+routes.delete('/:userId', async (request, response) => {
   try {
-    const { userName } = request.params;
+    const { userId } = request.params;
 
-    await db.deleteInfo(userName);
+    await db.deleteInfo(userId);
 
     return response.status(200).send({ message: `Usuario deletado com sucesso.` })
 
@@ -42,20 +42,35 @@ routes.delete('/:userName', async (request, response) => {
   }
 })
 
-routes.get('/:userName', async (request, response) => {
+routes.get('/', async (request, response) => {
   try {
-    const { userName } = request.params;
-
-    const info = await db.getInfo(userName);
+    const info = await db.getAllInfo();
 
     if (info.length > 0) {
-      return response.status(200).send(json(info));
+      return response.status(200).send({ message: info });
     } else {
-      return response.status(204);
+      return response.status(204).end();
     }
 
   } catch (error) {
-    response.status(500).send({ message: `Erro ao chamar as informações. ${error}` })
+    response.status(500).send({ message: `Erro ao buscar os dados. ${error}` })
+  }
+})
+
+routes.get('/unique/:userId', async (request, response) => {
+  try {
+    const { userId } = request.params;
+
+    const info = await db.getUniqueInfo(userId);
+
+    if (info.length > 0) {
+      return response.status(200).send({ message: info });
+    } else {
+      return response.status(204).end();
+    }
+
+  } catch (error) {
+    response.status(500).send({ message: `Erro ao buscar os dados. ${error}` })
   }
 })
 

@@ -4,10 +4,10 @@ import db from '../services/task.services.js'
 const routes = express.Router();
 
 routes.post('/', async (request, response) => {
-  const { name, task, explanation, idLanguage, idDifficulty, exp } = request.body;
+  const { name, task, explanation, exp, operationId, stageId } = request.body;
 
   try {
-    await db.createTask(name, task, explanation, idLanguage, idDifficulty, exp);
+    await db.createTask(name, task, explanation, exp, operationId, stageId);
 
     return response.status(201).send({ message: 'Tarefa adicionada com sucesso.' });
   } catch (error) {
@@ -18,9 +18,9 @@ routes.post('/', async (request, response) => {
 
 routes.put('/', async (request, response) => {
   try {
-    const { name, task, explanation, idLanguage, idDifficulty, exp, idTask } = request.body;
+    const { name, task, explanation, exp, operationId, stageId, taskId } = request.body;
 
-    await db.updateTask(name, task, explanation, idLanguage, idDifficulty, exp, idTask);
+    await db.updateTask(name, task, explanation, exp, operationId, stageId, taskId);
 
     response.status(200).send({ message: `Tarefa atualizada com sucesso` })
   } catch (error) {
@@ -29,18 +29,16 @@ routes.put('/', async (request, response) => {
 
 })
 
-
-
-routes.delete('/:idTask', async (request, response) => {
+routes.delete('/:taskId', async (request, response) => {
   try {
-    const { idTask } = request.params;
+    const { taskId } = request.params;
 
-    await db.deleteTask(idTask);
+    await db.deleteTask(taskId);
 
     return response.status(200).send({ message: `Tarefa deletado com sucesso.` })
 
   } catch (error) {
-    response.status(500).send({ message: `Erro ao excluir a tarefa. ${error}` })
+    response.status(500).send({ message: `Erro ao deletar a tarefa. ${error}` })
   }
 })
 
@@ -51,62 +49,45 @@ routes.get('/', async (request, response) => {
     if (task.length > 0) {
       return response.status(200).send({ task: task });
     } else {
-      return response.status(204);
+      return response.status(204).end();
     }
 
   } catch (error) {
-    response.status(500).send({ message: `Erro ao chamar a Tarefa. ${error}` })
+    response.status(500).send({ message: `Erro ao buscar a Tarefa. ${error}` })
   }
 })
 
-routes.get('/un/:idLanguage/:idDifficulty', async (request, response) => {
+routes.get('/unique/:taskId', async (request, response) => {
   try {
-    const { idLanguage, idDifficulty } = request.params;
+    const { taskId } = request.params;
 
-    const task = await db.getTask(idLanguage, idDifficulty);
+    const task = await db.getUniqueTask(taskId);
 
     if (task.length > 0) {
       return response.status(200).send({ task: task });
     } else {
-      return response.status(204);
+      return response.status(204).end();
     }
 
   } catch (error) {
-    response.status(500).send({ message: `Erro ao chamar a tarefa. ${error}` })
+    response.status(500).send({ message: `Erro ao buscar a tarefa. ${error}` })
   }
 })
 
-routes.get('/unName/:name', async (request, response) => {
+routes.get('/by/stage/:stageId', async (request, response) => {
   try {
-    const { name } = request.params;
+    const { stageId } = request.params;
 
-    const task = await db.getNameTask(name);
+    const task = await db.geTaskByStage(stageId);
 
     if (task.length > 0) {
       return response.status(200).send({ task: task });
     } else {
-      return response.status(204);
+      return response.status(204).end();
     }
 
   } catch (error) {
-    response.status(500).send({ message: `Erro ao chamar a tarefa. ${error}` })
-  }
-})
-
-routes.get('/unLang/:idLanguage', async (request, response) => {
-  try {
-    const { idLanguage } = request.params;
-
-    const task = await db.getLangTask(idLanguage);
-
-    if (task.length > 0) {
-      return response.status(200).send({ task: task });
-    } else {
-      return response.status(204);
-    }
-
-  } catch (error) {
-    response.status(500).send({ message: `Erro ao chamar a tarefa. ${error}` })
+    response.status(500).send({ message: `Erro ao buscar a tarefa. ${error}` })
   }
 })
 
