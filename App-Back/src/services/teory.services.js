@@ -50,7 +50,16 @@ async function getUniqueTeory(teoryId) {
   return rows;
 }
 
-async function getTeoryByGroup(groupId) {
+async function getTeoryByCourse(courseId) {
+  const sql = "SELECT * FROM vw_teory_details WHERE id_course = ?";
+
+  const conn = await database.connect();
+  const [rows] = await conn.query(sql, courseId);
+  conn.end();
+  return rows;
+}
+
+async function getTeoryOrdenedByGroup(groupId) {
   const sql = "SELECT * FROM vw_teory_note WHERE id_group = ?";
 
   const conn = await database.connect();
@@ -61,7 +70,7 @@ async function getTeoryByGroup(groupId) {
 
 async function getTeoryByStage(stageId) {
   const sql = "SELECT * FROM tbl_teory WHERE id_stage = ?";
-
+  
   const conn = await database.connect();
   const [rows] = await conn.query(sql, stageId);
   conn.end();
@@ -74,6 +83,7 @@ export default {
   deleteTeory,
   getUniqueTeory,
   getAllTeory,
-  getTeoryByGroup,
-  getTeoryByStage
+  getTeoryByCourse,
+  getTeoryByStage,
+  getTeoryOrdenedByGroup
 };

@@ -30,7 +30,7 @@ INSERT INTO tbl_teory (_name, _text, id_stage) VALUES ("HTML01TEORY", "Em HTML h
 ("JS01TEORY", "JavaScript é uma linguagem muito uilizada pelo mundo todo, sendo que alguns framworks foram criados a partir dele, como React, Vue e Angular.", 3), 
 ("HTML02TEORY", "Em HTML há duas tags essenciais para a formação do site, sendo elas <head> e <body>.", 2), 
 ("NODEJS01TEORY", "NodeJs é uma linguagem normalmente utilizada para a formação do Back-End do site.", 5),
-("MYSQL01TEORY", "MySql é utilizado para a criação de um banco de dados, desde sua estrutura.", 7),
+# ("MYSQL01TEORY", "MySql é utilizado para a criação de um banco de dados, desde sua estrutura.", 7),
 ("TESTE01TEORY", "Testando grupo e suas teorias.", 10), ("TESTE02TEORY", "Testando grupo e suas teorias.", 9),
 ("TESTE03TEORY", "Testando grupo e suas teorias.", 10);
  
