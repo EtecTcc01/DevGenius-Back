@@ -13,7 +13,7 @@ CREATE VIEW vw_registration AS (
 
 CREATE VIEW vw_user_info AS (
 	SELECT a._id AS id_user, a._name AS user_name, a._email, a._password, c._name AS type_user,
-	b.first_name, b.last_name, b.date_birth, b._sex, b._level, b.total_exp, a._inactive 
+	b.first_name, b.last_name, b.date_birth, b._sex, b._level, b.total_exp, b.profile_image, a._inactive 
 	from tbl_user AS a 
 	INNER JOIN tbl_user_info AS b ON b.id_user = a._id
 	INNER JOIN tbl_user_type AS c ON c._id = a.id_type
@@ -29,9 +29,12 @@ CREATE VIEW vw_user_groups AS (
 
 CREATE VIEW vw_courses AS (
 	SELECT a._id AS id_course, a._name AS _course, a._description AS course_desc, a._icon AS course_icon,
-	b._id AS id_group, b._name AS _group
+	b._id AS id_group, b._name AS _group, count(c._id) AS qtd_stages
 	FROM tbl_course AS a
 	INNER JOIN tbl_group AS b ON b._id = a.id_group
+    INNER JOIN tbl_stage AS c ON c.id_course = a._id
+	WHERE b._id = 1 
+    GROUP BY a._id
 );
 
 CREATE VIEW vw_teory_details AS (

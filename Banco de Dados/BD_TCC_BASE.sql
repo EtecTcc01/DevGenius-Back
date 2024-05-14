@@ -25,6 +25,7 @@ CREATE TABLE tbl_user_info ( #TABELA DE INFORMAÇÕES DE USUARIO
     first_name VARCHAR(30), #primeiro nome do usuário
     last_name VARCHAR(50), #sobrenome do usuário
     date_birth DATE, #data de nascimento do usuário
+    profile_image VARCHAR(500) DEFAULT "", #imagem de perfil do usuário
     _sex CHAR(1), #sexo do usuário: F (Feminino), M (Masculino) ou O (Outro ?)
     _level INT DEFAULT 0, #nivel atual do usuario
 	total_exp INT DEFAULT 0, #exp total (acumulativo) do usuario
@@ -56,6 +57,7 @@ CREATE TABLE tbl_stage ( #TABELA DE ETAPA P/APRENDIZADO
 	_id INT UNSIGNED AUTO_INCREMENT,
     id_course INT UNSIGNED, #id do curso ao qual a etapa se refere
     _name VARCHAR(100), #nome/titulo da etapa
+	_exp INT DEFAULT 1, #cd estagio dará uma 1 de exp ao completar (para progressão do usuário)
     CONSTRAINT tbl_stage_id_pk PRIMARY KEY (_id)
 );
 
@@ -81,7 +83,6 @@ CREATE TABLE tbl_task ( #TABELA DAS TAREFAS
     _name VARCHAR(50), #nome da questão/titulo da tarefa
     _text VARCHAR(250), #texto da tarefa	
 	_explanation VARCHAR(100), #explicacao da tarefa (Um resumo p/quando a pessoa errar)
-	_exp INT DEFAULT 0, #cd pergunta dará (ou não) uma qntd de exp que será adicionada ao total_exp da tabela info
     CONSTRAINT tbl_task_id_pk PRIMARY KEY (_id)
 	# task_instruction VARCHAR(100) DEFAULT "", #dica para o usuário
 );
