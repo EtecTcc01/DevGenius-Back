@@ -57,7 +57,6 @@ CREATE TABLE tbl_stage ( #TABELA DE ETAPA P/APRENDIZADO
 	_id INT UNSIGNED AUTO_INCREMENT,
     id_course INT UNSIGNED, #id do curso ao qual a etapa se refere
     _name VARCHAR(100), #nome/titulo da etapa
-	_exp INT DEFAULT 1, #cd estagio dará uma 1 de exp ao completar (para progressão do usuário)
     CONSTRAINT tbl_stage_id_pk PRIMARY KEY (_id)
 );
 
@@ -81,7 +80,8 @@ CREATE TABLE tbl_task ( #TABELA DAS TAREFAS
     id_stage INT UNSIGNED, #id da etapa ao qual a tarefa se refere
     id_operation INT UNSIGNED, #id do tipo de operação, usada p/identificação
     _name VARCHAR(50), #nome da questão/titulo da tarefa
-    _text VARCHAR(250), #texto da tarefa	
+    _text VARCHAR(250), #texto da tarefa
+	_lifes INT DEFAULT 3, #cd task dará uma qtd de 1 de exp ao finaliza-lá, podendo ter, no minimo, 3 tentativas
 	_explanation VARCHAR(100), #explicacao da tarefa (Um resumo p/quando a pessoa errar)
     CONSTRAINT tbl_task_id_pk PRIMARY KEY (_id)
 	# task_instruction VARCHAR(100) DEFAULT "", #dica para o usuário

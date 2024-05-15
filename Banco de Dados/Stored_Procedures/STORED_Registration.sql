@@ -1,7 +1,5 @@
 #ARQUIVO PARA ARMAZENAR UMA STORED_PROCEDURE DO db_devgenius
 
-select * from tbl_registration;
-
 DELIMITER $$
 
 CREATE PROCEDURE GetRegistration(

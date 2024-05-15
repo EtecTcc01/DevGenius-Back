@@ -37,10 +37,10 @@ INSERT INTO tbl_teory (_name, _text, id_stage) VALUES ("HTML01TEORY", "Em HTML h
 
 # As tasks básica são, basicamente, um quiz, onde é adicionado uma tarefa e alternativas a serem escolhidas
 
-INSERT INTO tbl_task (id_operation, _name, _text, _explanation, id_stage) VALUES (1, "HTML BÁSICO 01", "Qual tag que contém todo o código para a formação do site?", "Leia a Teoria HTML 01 para saber mais.", 1),
-(1, "JS BÁSICO 01", "Quais frameworks foram criados a partir do JavaScript", "Leia a Teoria JS 01 para saber mais.", 3), 
-(1, "HTML BÁSICO 02", "Quais tags são essencias para a formação do site em HTML?", "Leia a Teoria HTML 03 para saber mais.", 2), 
-(1, "NODEJS BÁSICO 01", "Node normalmente tende a ser utilizado para a formação do que, em um site?", "Leia a Teoria NODEJS 01 para saber mais.", 4);
+INSERT INTO tbl_task (id_operation, _name, _text, _explanation, id_stage, _lifes) VALUES (1, "HTML BÁSICO 01", "Qual tag que contém todo o código para a formação do site?", "Leia a Teoria HTML 01 para saber mais.", 1, 3),
+(1, "JS BÁSICO 01", "Quais frameworks foram criados a partir do JavaScript", "Leia a Teoria JS 01 para saber mais.", 3, 3), 
+(1, "HTML BÁSICO 02", "Quais tags são essencias para a formação do site em HTML?", "Leia a Teoria HTML 03 para saber mais.", 2, 3), 
+(1, "NODEJS BÁSICO 01", "Node normalmente tende a ser utilizado para a formação do que, em um site?", "Leia a Teoria NODEJS 01 para saber mais.", 4, 3);
 
 INSERT INTO tbl_answer_basic (id_task, _text, _alternativeA, _alternativeB, _alternativeC) VALUES (1, "Tag <html>", "Tag <h1>", "Tag <head>", "Tag <body>"), 
 (2, "React, Vue e Angular", "React, Vue e HTML", "XML, HTML e CSS", "React-Native, e HTML"), 
@@ -55,10 +55,10 @@ com as possiveis alternativas. Contendo no maximo 3 alternativas erradas (Todas 
 Utilize "\n" para a separação do texto por linha dentro do front (No maximo de 5 linhas).
 */
 
-INSERT INTO tbl_task (id_operation, _name, _text, _explanation, id_stage) VALUES (2, "JS INTERMEDIÁRIO 01", "‼ (validacao == true) {\n    console.log(1)\n} ‼ {\n    console.log(0)\n}", "Leia a Teoria JS 02 para saber mais.", 3), 
-(2, "HTML INTERMEDIÁRIO 01", "<head>\n	<meta ‼='UTF-8'>\n<‼>", "Leia a Teoria HTML 02 para saber mais.", 1), 
-(2, "HTML INTERMEDIÁRIO 02", "<head>\n    <script src='js/script.js'><‼>\n    <‼ rel='stylesheet' ‼='css/style.css'>\n</head>", "Leia a Teoria HTML 04 para saber mais.", 2), 
-(2, "NODEJS INTERMEDIÁRIO 01", "‼ api = express();\napi.‼(cors());\napi.use(express.json());\n‼.use('/teste', routes);", "Leia a Teoria NODEJS 02 para saber mais.", 5);
+INSERT INTO tbl_task (id_operation, _name, _text, _explanation, id_stage, _lifes) VALUES (2, "JS INTERMEDIÁRIO 01", "‼ (validacao == true) {\n    console.log(1)\n} ‼ {\n    console.log(0)\n}", "Leia a Teoria JS 02 para saber mais.", 3, 3), 
+(2, "HTML INTERMEDIÁRIO 01", "<head>\n	<meta ‼='UTF-8'>\n<‼>", "Leia a Teoria HTML 02 para saber mais.", 1, 3), 
+(2, "HTML INTERMEDIÁRIO 02", "<head>\n    <script src='js/script.js'><‼>\n    <‼ rel='stylesheet' ‼='css/style.css'>\n</head>", "Leia a Teoria HTML 04 para saber mais.", 2, 3), 
+(2, "NODEJS INTERMEDIÁRIO 01", "‼ api = express();\napi.‼(cors());\napi.use(express.json());\n‼.use('/teste', routes);", "Leia a Teoria NODEJS 02 para saber mais.", 5, 3);
 
 INSERT INTO tbl_answer_Intermediary (id_task, _text, _alternativeA, _alternativeB, _alternativeC, _alternativeD, _alternativeE) 
 VALUES (5, "if else", "for", "while", "promisse", "async await", "foreach"),
@@ -68,13 +68,13 @@ VALUES (5, "if else", "for", "while", "promisse", "async await", "foreach"),
 
 #TASKS AVANÇADAS ---------------------------------------------------------------------------------------------------
 
-INSERT INTO tbl_task (id_operation, _name, _text, _explanation, id_stage) VALUES (3, "HTML Avançado 01", "Utilize das possibilidades dada para criar um código padrão <head> HTML.", "Leia a Teoria HTML 05 para saber mais.", 1);
+INSERT INTO tbl_task (id_operation, _name, _text, _explanation, id_stage, _lifes) VALUES (3, "HTML Avançado 01", "Utilize das possibilidades dada para criar um código padrão <head> HTML.", "Leia a Teoria HTML 05 para saber mais.", 1, 5);
 
 INSERT INTO tbl_answer_advanced (id_task, _code) VALUES (9, "<meta charset=''>\n<meta http-equiv='' content=''>\n<meta name='' content=''>\n<title> Document </title>");
 
 #-------------------------------------------------------------------------------------------------------------------
 
 #TESTE
-INSERT INTO tbl_task (id_operation, _name, _text, _explanation, id_stage) VALUES (1, "HTML BÁSICO 01.2", "Quais tags são usadas para 'linkar' o arquivo JavaScript e CSS com o HTML?", "Leia a Teoria HTML 01 para saber mais.", 1);
+INSERT INTO tbl_task (id_operation, _name, _text, _explanation, id_stage, _lifes) VALUES (1, "HTML BÁSICO 01.2", "Quais tags são usadas para 'linkar' o arquivo JavaScript e CSS com o HTML?", "Leia a Teoria HTML 01 para saber mais.", 6, 3);
 INSERT INTO tbl_answer_basic (id_task, _text, _alternativeA, _alternativeB, _alternativeC) VALUES (10, "Tag <script> e <link>", "Tag <html> e <script>", "Tag <css> e <js>", "Tag <universal>");
 
