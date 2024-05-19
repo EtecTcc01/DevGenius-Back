@@ -21,7 +21,7 @@ CREATE TABLE tbl_user ( #TBL PARA CADASTRO DE USUARIOS
 );
 
 CREATE TABLE tbl_user_info ( #TABELA DE INFORMAÇÕES DE USUARIO
-	id_user INT UNSIGNED, #id correpondente do usuário
+	id_user INT UNSIGNED, #id correpondente ao usuário
     first_name VARCHAR(30), #primeiro nome do usuário
     last_name VARCHAR(50), #sobrenome do usuário
     date_birth DATE, #data de nascimento do usuário
@@ -57,6 +57,7 @@ CREATE TABLE tbl_stage ( #TABELA DE ETAPA P/APRENDIZADO
 	_id INT UNSIGNED AUTO_INCREMENT,
     id_course INT UNSIGNED, #id do curso ao qual a etapa se refere
     _name VARCHAR(100), #nome/titulo da etapa
+    _exp INT DEFAULT 1, #qtd de exp dado ao usuário ao terminar o estagio (pode variar...)
     CONSTRAINT tbl_stage_id_pk PRIMARY KEY (_id)
 );
 
@@ -72,6 +73,7 @@ CREATE TABLE tbl_operation ( #TBL DE OPERAÇÕES
 	_id INT UNSIGNED AUTO_INCREMENT,
     _name VARCHAR(15), #nome da operação
     _description VARCHAR(150), #descricao da operação
+	_lifes INT DEFAULT 3, #definindo a qtd de vida de cada "dificuldade"
     CONSTRAINT tbl_operation_id_pk PRIMARY KEY (_id)
 );
 
@@ -81,10 +83,8 @@ CREATE TABLE tbl_task ( #TABELA DAS TAREFAS
     id_operation INT UNSIGNED, #id do tipo de operação, usada p/identificação
     _name VARCHAR(50), #nome da questão/titulo da tarefa
     _text VARCHAR(250), #texto da tarefa
-	_lifes INT DEFAULT 3, #cd task dará uma qtd de 1 de exp ao finaliza-lá, podendo ter, no minimo, 3 tentativas
 	_explanation VARCHAR(100), #explicacao da tarefa (Um resumo p/quando a pessoa errar)
     CONSTRAINT tbl_task_id_pk PRIMARY KEY (_id)
-	# task_instruction VARCHAR(100) DEFAULT "", #dica para o usuário
 );
 
 CREATE TABLE tbl_registration ( #TABELA DA MATRICULA DO CURSO (RELACIONAMENTO)
@@ -93,7 +93,6 @@ CREATE TABLE tbl_registration ( #TABELA DA MATRICULA DO CURSO (RELACIONAMENTO)
     id_course INT UNSIGNED, #id do curso ao qual o registro se refere
     date_registration DATETIME DEFAULT NOW(), #data da matricula do usuario
     level_stage INT UNSIGNED DEFAULT (0), #estagio, por index, de onde o usuário parou
-    #no front, é criado uma resquisição de todos os stages, ordenados por ids, e o campo irá determinar onde ele parou atraves do index
 	CONSTRAINT tbl_registration_id_pk PRIMARY KEY(_id)
 );
 
