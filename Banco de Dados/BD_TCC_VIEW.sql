@@ -1,7 +1,5 @@
 #ARQUIVO P/ARMAZENAR SELECT'S E VIEW'S DAS TABELAS DO bd_devgenius
 
-# UPDATE tbl_registration SET level_stage = 0 WHERE _id = 3;
-
 CREATE VIEW vw_registration AS (
 	SELECT a._id AS id_registration, a.date_registration, a.level_stage,
     b._id AS id_user, b._name AS _user, b._email AS email_user,
@@ -56,6 +54,13 @@ CREATE VIEW vw_teory_note AS (
 	INNER JOIN tbl_teory AS c ON c.id_stage = b._id
 	INNER JOIN tbl_group AS d ON d._id = a.id_group
 	GROUP BY a._id
+);
+
+CREATE VIEW vw_task_operation AS (
+	SELECT a._id AS id_task, a.id_stage, a._name AS _task, _text, _explanation, 
+    b._id AS id_operation, b._name AS _operation, b._description AS op_description, _lifes
+    FROM tbl_task AS a
+    INNER JOIN tbl_operation AS b ON b._id = a.id_operation
 );
 
 SELECT * FROM tbl_user;

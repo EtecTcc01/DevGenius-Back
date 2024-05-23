@@ -51,7 +51,7 @@ async function getUniqueTask(taskId) {
 }
 
 async function geTaskByStage(stageId) {
-  const sql = "SELECT * FROM tbl_task WHERE id_stage = ?"
+  const sql = "SELECT * FROM vw_task_operation WHERE id_stage = ?"
 
   const conn = await database.connect()
   const [rows] = await conn.query(sql, stageId)
