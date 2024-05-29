@@ -15,7 +15,7 @@ async function createCourse(name, description, icon, groupId) {
 }
 
 async function updateCourse(name, description, icon, groupId, courseId) {
-    const sql = "UPDATE tbl_course SET _name = ?, _description = ?, _icon = ? id_group = ? WHERE _id = ?"
+    const sql = "UPDATE tbl_course SET _name = ?, _description = ?, _icon = ?, id_group = ? WHERE _id = ?"
 
     const dataCourse = [name, description, icon, groupId, courseId];
 

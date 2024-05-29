@@ -15,7 +15,7 @@ async function createTeory(name, teory, stageId) {
 }
 
 async function updateTeory(name, teory, stageId, teoryId) {
-  const sql = "UPDATE tbl_teory SET _name = ?, _text = ? id_stage = ? WHERE _id = ?"
+  const sql = "UPDATE tbl_teory SET _name = ?, _text = ?, id_stage = ? WHERE _id = ?"
 
   const dataTeory = [name, teory, stageId, teoryId];
 
