@@ -1,11 +1,11 @@
 import database from '../repository/connectMysql.js'
 
 
-async function createTask(name, task, explanation, exp, operationId, stageId) {
+async function createTask(name, task, explanation, operationId, stageId) {
 
-  const sql = `INSERT INTO tbl_task (_name, _text, _explanation, _exp, id_operation, id_stage) VALUES (?, ?, ?, ?, ?, ?)`
+  const sql = `INSERT INTO tbl_task (_name, _text, _explanation, id_operation, id_stage) VALUES (?, ?, ?, ?, ?, ?)`
 
-  const dataTask = [name, task, explanation, exp, operationId, stageId]
+  const dataTask = [name, task, explanation, operationId, stageId]
 
   const conn = await database.connect()
 
@@ -14,10 +14,10 @@ async function createTask(name, task, explanation, exp, operationId, stageId) {
   conn.end()
 }
 
-async function updateTask(name, task, explanation, exp, operationId, stageId, taskId) {
-  const sql = "UPDATE tbl_task set _name = ?, _text = ?, _explanation = ?, _exp = ? id_operation = ? id_stage = ? WHERE _id = ?"
+async function updateTask(name, task, explanation, operationId, stageId, taskId) {
+  const sql = "UPDATE tbl_task set _name = ?, _text = ?, _explanation = ?, id_operation = ?, id_stage = ? WHERE _id = ?"
 
-  const dataTask = [name, task, explanation, exp, operationId, stageId, taskId]
+  const dataTask = [name, task, explanation, operationId, stageId, taskId]
 
   const conn = await database.connect()
   await conn.query(sql, dataTask)

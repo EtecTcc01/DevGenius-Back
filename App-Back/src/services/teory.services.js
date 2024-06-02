@@ -59,6 +59,15 @@ async function getTeoryByCourse(courseId) {
   return rows;
 }
 
+async function getTeoryByGroup(groupId) {
+  const sql = "SELECT * FROM vw_teory_details WHERE id_group = ?";
+
+  const conn = await database.connect();
+  const [rows] = await conn.query(sql, groupId);
+  conn.end();
+  return rows;
+}
+
 async function getTeoryOrdenedByGroup(groupId) {
   const sql = "SELECT * FROM vw_teory_note WHERE id_group = ?";
 
@@ -70,7 +79,7 @@ async function getTeoryOrdenedByGroup(groupId) {
 
 async function getTeoryByStage(stageId) {
   const sql = "SELECT * FROM tbl_teory WHERE id_stage = ?";
-  
+
   const conn = await database.connect();
   const [rows] = await conn.query(sql, stageId);
   conn.end();
@@ -85,5 +94,6 @@ export default {
   getAllTeory,
   getTeoryByCourse,
   getTeoryByStage,
+  getTeoryByGroup,
   getTeoryOrdenedByGroup
 };

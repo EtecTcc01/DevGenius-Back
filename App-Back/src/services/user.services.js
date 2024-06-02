@@ -18,10 +18,10 @@ async function createUser(userEmail, userName, userPassword, userType) {
   return rows
 }
 
-async function updateUser(userName, userEmail, userPassword, userId) {
-  const sql = "UPDATE tbl_user SET _name = ?, _email = ?, _password = ? WHERE _id = ?"
+async function updateUser(userName, userEmail, userPassword, userType, userId) {
+  const sql = "UPDATE tbl_user SET _name = ?, _email = ?, _password = ?, id_type = ? WHERE _id = ?"
 
-  const dataUser = [userName, userEmail, userPassword, userId];
+  const dataUser = [userName, userEmail, userPassword, userType, userId];
 
   const conn = await database.connect();
   await conn.query(sql, dataUser);

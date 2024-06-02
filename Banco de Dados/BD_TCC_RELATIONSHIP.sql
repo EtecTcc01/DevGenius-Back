@@ -55,10 +55,10 @@ UNIQUE (id_task);
 ALTER TABLE tbl_answer_basic ADD CONSTRAINT tbl_answer_basic_id_task_fk 
 FOREIGN KEY (id_task) REFERENCES tbl_task (_id) ON DELETE CASCADE;
 
-ALTER TABLE tbl_answer_Intermediary ADD CONSTRAINT tbl_answer_Intermediary_un
+ALTER TABLE tbl_answer_intermediary ADD CONSTRAINT tbl_answer_intermediary_un
 UNIQUE (id_task);
 
-ALTER TABLE tbl_answer_Intermediary ADD CONSTRAINT tbl_answer_Intermediary_id_task_fk 
+ALTER TABLE tbl_answer_intermediary ADD CONSTRAINT tbl_answer_intermediary_id_task_fk 
 FOREIGN KEY (id_task) REFERENCES tbl_task (_id) ON DELETE CASCADE;
 
 ALTER TABLE tbl_answer_advanced ADD CONSTRAINT tbl_answer_advanced_un

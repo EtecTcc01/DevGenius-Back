@@ -18,9 +18,9 @@ routes.post('/', async (request, response) => {
 
 routes.put('/', async (request, response) => {
     try {
-        const { date, userId, courseId, registrationId } = request.body;
+        const { phase, lifes, date, userId, courseId, registrationId } = request.body;
 
-        await db.updateRegistration(date, userId, courseId, registrationId);
+        await db.updateRegistration(phase, lifes, date, userId, courseId, registrationId);
 
         response.status(200).send({ message: `Registro atualizado com sucesso` })
     } catch (error) {
@@ -115,11 +115,12 @@ routes.get('/for/stages/:dataIds', async (request, response) => {
     }
 })
 
-routes.get('/by/group/:groupId', async (request, response) => {
+routes.get('/by/group/:dataIds', async (request, response) => {
     try {
-        const { groupId } = request.params;
+        const { dataIds } = request.params;
+        const dataS = dataIds.split(',')
 
-        const registration = await db.getRegistrationByGroup(groupId);
+        const registration = await db.getRegistrationByGroup(dataS[0], dataS[1]);
 
         if (registration.length > 0) {
             return response.status(200).send({ registration: registration });

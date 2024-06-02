@@ -22,13 +22,13 @@ CREATE TABLE tbl_user ( #TBL PARA CADASTRO DE USUARIOS
 
 CREATE TABLE tbl_user_info ( #TABELA DE INFORMAÇÕES DE USUARIO
 	id_user INT UNSIGNED, #id correpondente ao usuário
-    first_name VARCHAR(30), #primeiro nome do usuário
-    last_name VARCHAR(50), #sobrenome do usuário
+    #first_name VARCHAR(30), #primeiro nome do usuário
+    #last_name VARCHAR(50), #sobrenome do usuário
     date_birth DATE, #data de nascimento do usuário
     profile_image VARCHAR(500) DEFAULT "", #imagem de perfil do usuário
     _sex CHAR(1), #sexo do usuário: F (Feminino), M (Masculino) ou O (Outro ?)
     _level INT DEFAULT 0, #nivel atual do usuario
-	total_exp INT DEFAULT 0, #exp total (acumulativo) do usuario
+	total_exp FLOAT DEFAULT 0, #exp total (acumulativo) do usuario
     CONSTRAINT tbl_user_info_id_pk PRIMARY KEY (id_user)
 );
 
@@ -49,7 +49,7 @@ CREATE TABLE tbl_course ( #TABELA DE CURSOS
     id_group INT UNSIGNED, #id do grupo ao o curso se refere
 	_name VARCHAR(15), #nome do curso/linguagem
 	_description VARCHAR(150), #descricao do curso/linguagem
-    _icon VARCHAR(50) DEFAULT "none", #icon do curso/linguagem
+    _icon VARCHAR(300) DEFAULT "none", #icon do curso/linguagem
 	CONSTRAINT tbl_course_id_pk PRIMARY KEY (_id)
 );
 
@@ -57,7 +57,6 @@ CREATE TABLE tbl_stage ( #TABELA DE ETAPA P/APRENDIZADO
 	_id INT UNSIGNED AUTO_INCREMENT,
     id_course INT UNSIGNED, #id do curso ao qual a etapa se refere
     _name VARCHAR(100), #nome/titulo da etapa
-    _exp INT DEFAULT 1, #qtd de exp dado ao usuário ao terminar o estagio (pode variar...)
     CONSTRAINT tbl_stage_id_pk PRIMARY KEY (_id)
 );
 
@@ -73,7 +72,6 @@ CREATE TABLE tbl_operation ( #TBL DE OPERAÇÕES
 	_id INT UNSIGNED AUTO_INCREMENT,
     _name VARCHAR(15), #nome da operação
     _description VARCHAR(150), #descricao da operação
-	_lifes INT DEFAULT 3, #definindo a qtd de vida de cada "dificuldade"
     CONSTRAINT tbl_operation_id_pk PRIMARY KEY (_id)
 );
 
@@ -93,6 +91,8 @@ CREATE TABLE tbl_registration ( #TABELA DA MATRICULA DO CURSO (RELACIONAMENTO)
     id_course INT UNSIGNED, #id do curso ao qual o registro se refere
     date_registration DATETIME DEFAULT NOW(), #data da matricula do usuario
     level_stage INT UNSIGNED DEFAULT (0), #estagio, por index, de onde o usuário parou
+	_lifes INT DEFAULT 5, #definindo a qtd de vida de cada estagio
+	_phase INT DEFAULT 0, #definindo a fase atual o estágio em que o usuário está
 	CONSTRAINT tbl_registration_id_pk PRIMARY KEY(_id)
 );
 
@@ -113,7 +113,7 @@ CREATE TABLE tbl_answer_basic ( #TABELA DE RESPOSTAS DO NÍVEL BASICO P/DETERMIN
 # --------------------------------------------------------------------------------------------------------------------------------------------
 
 #Nível Intermediario: Preencher as alternativas com, no maximo, 3 palavras, referente a programação (Com excessão da _text)
-CREATE TABLE tbl_answer_Intermediary ( #TABELA DE RESPOSTAS DO NÍVEL INTERMEDIARIO P/DETERMINADA TAREFA
+CREATE TABLE tbl_answer_intermediary ( #TABELA DE RESPOSTAS DO NÍVEL INTERMEDIARIO P/DETERMINADA TAREFA
 	_id INT UNSIGNED AUTO_INCREMENT,
     id_task INT UNSIGNED, #id da tarefa a qual a resposta se refere
     _text VARCHAR(300), #resposta correta, usada para apenas para validação

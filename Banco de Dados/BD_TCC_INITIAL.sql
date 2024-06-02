@@ -5,25 +5,23 @@
 
 INSERT INTO tbl_user_type (_name) VALUES ("COMUM"), ("ADMINISTRATOR"), ("EDUCATOR");
 INSERT INTO tbl_user (_name, _email, _password, id_type) VALUES ("Admin","admin01@gmail.com","admin0001", 2), ("Other","other01@gmail.com","other0001", 1);
-INSERT INTO tbl_user_info (id_user, first_name, last_name, date_birth, _sex) VALUES (1, "Ademilson", "Oliveira Da Silva", "2000-02-09", "M"), (2, "Otherian", "Theodor Silveira", "1988-04-22", "F");
+INSERT INTO tbl_user_info (id_user, date_birth, _sex) VALUES (1, "2000-02-09", "M"), (2, "1988-04-22", "F");
 INSERT INTO tbl_group (_name) VALUES ("Público"), ("GRUPO DOIS"), ("GROUP TRHEE"), ("GRUPO DE FOUR");
 INSERT INTO tbl_user_group (id_group, id_user) VALUES (2, 1), (1, 1), (1, 2), (2, 2), (4, 2);
 
-INSERT INTO tbl_operation (_name, _description, _lifes) VALUES ("Básico","Nível simples e fácil, focado em um quiz para ajudar o usuário a memorizar coisas importantes.", 3), 
-("Intermediário","Nível com um aumento no grau de dificuldade em relação ao anterior, onde o usuário completa o código dado.", 3), 
-("Avançado","Nível relativamente díficil, onde o usuário desenvolve o código sozinho com as alternativas dadas, de acordo com o enunciado.", 5);
+INSERT INTO tbl_operation (_name, _description) VALUES ("Básico","Nível simples e fácil, focado em um quiz para ajudar o usuário a memorizar coisas importantes."), 
+("Intermediário","Nível com um aumento no grau de dificuldade em relação ao anterior, onde o usuário completa o código dado."), 
+("Avançado","Nível relativamente díficil, onde o usuário desenvolve o código sozinho com as alternativas dadas, de acordo com o enunciado.");
  
-INSERT INTO tbl_course (_name, _description, id_group) VALUES 
-("Projeto WEB", "HTML + CSS. 'Pacote' com duas linguagens de marcação de texto para a construção de projetos web.", 1), 
-("JavaScript", "JavaScript é a linguagem de programação essencial para INTeratividade em páginas web.", 1), 
-("NodeJs", "É um software de código que permite a execução de códigos JavaScript fora de um navegador web.", 1), 
-("MySQL", "MySQL é uma linguagem para gerenciar bancos de dados relacionais, permitindo consultas e manipulações.", 2), 
-("Teste Grupo", "Testando grupo... Testando", 2);
+INSERT INTO tbl_course (_name, _description, id_group, _icon) VALUES 
+("Projeto WEB", "HTML + CSS. 'Pacote' com duas linguagens de marcação de texto para a construção de projetos web.", 1, "https://cdn.dribbble.com/users/783/screenshots/104300/shot_1295820312.gif"), 
+("JavaScript", "JavaScript é a linguagem de programação essencial para INTeratividade em páginas web.", 1, "https://img.icons8.com/?size=100&id=108784&format=png&color=000000"), 
+("NodeJs", "É um software de código que permite a execução de códigos JavaScript fora de um navegador web.", 1, "https://img.icons8.com/?size=100&id=ouWtcsgDBiwO&format=png&color=000000"), 
+("MySQL", "MySQL é uma linguagem para gerenciar bancos de dados relacionais, permitindo consultas e manipulações.", 2, "https://img.icons8.com/?size=100&id=8httoRHg3Sbt&format=png&color=000000"), 
+("Teste Grupo", "Testando grupo... Testando", 2, "none");
 
-INSERT INTO tbl_registration (id_user, id_course) VALUES (1, 1), (1, 2);
-
-INSERT INTO tbl_stage (id_course, _name, _exp) VALUES (1, "HTML 01", 5), (1, "HTML 02", 3), (2, "JAVASCRIPT 01", 5), 
-(3, "NODEJS 01", 3), (3, "NODEJS 02", 3), (5, "Teste 01", 3);
+INSERT INTO tbl_stage (id_course, _name) VALUES (1, "HTML 01"), (1, "HTML 02"), (2, "JAVASCRIPT 01"), 
+(3, "NODEJS 01"), (3, "NODEJS 02"), (5, "Teste 01");
 
 INSERT INTO tbl_teory (_name, _text, id_stage) VALUES ("HTML01TEORY", "Em HTML há uma tag que contém todo o código do site dentro, sendo ela <html>", 1), 
 ("JS01TEORY", "JavaScript é uma linguagem muito uilizada pelo mundo todo, sendo que alguns framworks foram criados a partir dele, como React, Vue e Angular.", 3), 
@@ -60,7 +58,7 @@ INSERT INTO tbl_task (id_operation, _name, _text, _explanation, id_stage) VALUES
 (2, "HTML INTERMEDIÁRIO 02", "<head>\n    <script src='js/script.js'><‼>\n    <‼ rel='stylesheet' ‼='css/style.css'>\n</head>", "Leia a Teoria HTML 04 para saber mais.", 2), 
 (2, "NODEJS INTERMEDIÁRIO 01", "‼ api = express();\napi.‼(cors());\napi.use(express.json());\n‼.use('/teste', routes);", "Leia a Teoria NODEJS 02 para saber mais.", 5);
 
-INSERT INTO tbl_answer_Intermediary (id_task, _text, _alternativeA, _alternativeB, _alternativeC, _alternativeD, _alternativeE) 
+INSERT INTO tbl_answer_intermediary (id_task, _text, _alternativeA, _alternativeB, _alternativeC, _alternativeD, _alternativeE) 
 VALUES (5, "if else", "for", "while", "promisse", "async await", "foreach"),
 (6, "charset /head", "/name", "name /charset", "head", "meta/", "meta"),
 (7, "/script link href", "head meta", "name style", "src", "rel", "script/"),

@@ -92,6 +92,23 @@ routes.get('/by/course/:courseId', async (request, response) => {
   }
 })
 
+routes.get('/by/group/:groupId', async (request, response) => {
+  try {
+    const { groupId } = request.params;
+
+    const teory = await db.getTeoryByGroup(groupId);
+
+    if (teory.length > 0) {
+      return response.status(200).send({ teory: teory });
+    } else {
+      return response.status(204).end();
+    }
+
+  } catch (error) {
+    response.status(500).send({ message: `Erro ao buscar a teoria. ${error}` })
+  }
+})
+
 routes.get('/by/group/ordened/:groupId', async (request, response) => {
   try {
     const { groupId } = request.params;

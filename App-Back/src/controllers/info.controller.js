@@ -4,10 +4,10 @@ import db from '../services/info.services.js'
 const routes = express.Router();
 
 routes.post('/', async (request, response) => {
-  const { firstName, lastName, userDate, userSex, userId } = request.body;
+  const { userDate, userSex, userId } = request.body;
 
   try {
-    await db.createInfo(firstName, lastName, userDate, userSex, userId);
+    await db.createInfo(userDate, userSex, userId);
 
     return response.status(201).send({ message: 'Informações do usuário adicionada com sucesso.' });
   } catch (error) {
@@ -17,9 +17,9 @@ routes.post('/', async (request, response) => {
 
 routes.put('/', async (request, response) => {
   try {
-    const { firstName, lastName, userDate, profileImage, userSex, userId } = request.body;
+    const { userDate, profileImage, userSex, userId } = request.body;
 
-    await db.updateInfo(firstName, lastName, userDate, profileImage, userSex, userId);
+    await db.updateInfo(userDate, profileImage, userSex, userId);
 
     response.status(200).send({ message: `Informações do usuário ${userId} atualizados com sucesso` })
   } catch (error) {
@@ -27,7 +27,6 @@ routes.put('/', async (request, response) => {
   }
 
 })
-
 
 routes.delete('/:userId', async (request, response) => {
   try {
@@ -55,6 +54,19 @@ routes.get('/', async (request, response) => {
   } catch (error) {
     response.status(500).send({ message: `Erro ao buscar os dados. ${error}` })
   }
+})
+
+routes.put('/level', async (request, response) => {
+  try {
+    const { userLevel, totalExp, userId } = request.body;
+
+    await db.updateLevelInfo(userLevel, totalExp, userId);
+
+    response.status(200).send({ message: `Informações do usuário ${userId} atualizados com sucesso` })
+  } catch (error) {
+    response.status(500).send({ message: `Erro ao atualizar os dados. ${error}` });
+  }
+
 })
 
 routes.get('/unique/:userId', async (request, response) => {

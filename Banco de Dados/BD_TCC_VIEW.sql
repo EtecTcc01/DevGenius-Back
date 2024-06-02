@@ -1,7 +1,7 @@
 #ARQUIVO P/ARMAZENAR SELECT'S E VIEW'S DAS TABELAS DO bd_devgenius
 
 CREATE VIEW vw_registration AS (
-	SELECT a._id AS id_registration, a.date_registration, a.level_stage,
+	SELECT a._id AS id_registration, a.date_registration, a.level_stage, a._phase, a._lifes,
     b._id AS id_user, b._name AS _user, b._email AS email_user,
 	c._id AS id_course, c._name AS _course, c._description AS course_desc, c._icon AS course_icon,
 	d._id AS id_group, d._name AS _group
@@ -13,7 +13,7 @@ CREATE VIEW vw_registration AS (
 
 CREATE VIEW vw_user_info AS (
 	SELECT a._id AS id_user, a._name AS user_name, a._email, a._password, c._name AS type_user,
-	b.first_name, b.last_name, b.date_birth, b._sex, b._level, b.total_exp, b.profile_image, a._inactive 
+	b.date_birth, b._sex, b._level, b.total_exp, b.profile_image, a._inactive 
 	from tbl_user AS a 
 	INNER JOIN tbl_user_info AS b ON b.id_user = a._id
 	INNER JOIN tbl_user_type AS c ON c._id = a.id_type
@@ -58,7 +58,7 @@ CREATE VIEW vw_teory_note AS (
 
 CREATE VIEW vw_task_operation AS (
 	SELECT a._id AS id_task, a.id_stage, a._name AS _task, _text, _explanation, 
-    b._id AS id_operation, b._name AS _operation, b._description AS op_description, _lifes
+    b._id AS id_operation, b._name AS _operation, b._description AS op_description
     FROM tbl_task AS a
     INNER JOIN tbl_operation AS b ON b._id = a.id_operation
 );

@@ -15,7 +15,7 @@ async function createStage(name, courseId) {
 }
 
 async function updateStage(name, courseId, stageId) {
-  const sql = "UPDATE tbl_stage SET _name = ? id_course = ?, WHERE _id = ?"
+  const sql = "UPDATE tbl_stage SET _name = ?, id_course = ?, WHERE _id = ?"
 
   const dataStage = [name, courseId, stageId];
 

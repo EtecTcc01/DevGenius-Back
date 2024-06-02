@@ -4,10 +4,10 @@ import db from '../services/task.services.js'
 const routes = express.Router();
 
 routes.post('/', async (request, response) => {
-  const { name, task, explanation, exp, operationId, stageId } = request.body;
+  const { name, task, explanation, operationId, stageId } = request.body;
 
   try {
-    await db.createTask(name, task, explanation, exp, operationId, stageId);
+    await db.createTask(name, task, explanation, operationId, stageId);
 
     return response.status(201).send({ message: 'Tarefa adicionada com sucesso.' });
   } catch (error) {
@@ -18,9 +18,9 @@ routes.post('/', async (request, response) => {
 
 routes.put('/', async (request, response) => {
   try {
-    const { name, task, explanation, exp, operationId, stageId, taskId } = request.body;
+    const { name, task, explanation, operationId, stageId, taskId } = request.body;
 
-    await db.updateTask(name, task, explanation, exp, operationId, stageId, taskId);
+    await db.updateTask(name, task, explanation, operationId, stageId, taskId);
 
     response.status(200).send({ message: `Tarefa atualizada com sucesso` })
   } catch (error) {

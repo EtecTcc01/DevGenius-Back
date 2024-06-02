@@ -1,11 +1,11 @@
 import database from '../repository/connectMysql.js';
 
 
-async function createInfo(firstName, lastName, userDate, userSex, userId) {
+async function createInfo(userDate, userSex, userId) {
 
-  const sql = `INSERT INTO tbl_user_info (first_name, last_name, date_birth, _sex, id_user) VALUES (?, ?, ?, ?, ?)`
+  const sql = `INSERT INTO tbl_user_info (date_birth, _sex, id_user) VALUES ( ?, ?, ?)`
 
-  const dataInfo = [firstName, lastName, userDate, userSex, userId];
+  const dataInfo = [userDate, userSex, userId];
 
   const conn = await database.connect();
 
@@ -14,10 +14,20 @@ async function createInfo(firstName, lastName, userDate, userSex, userId) {
   conn.end();
 }
 
-async function updateInfo(firstName, lastName, userDate, profileImage, userSex, userId) {
-  const sql = "UPDATE tbl_user_info SET first_name = ?, last_name = ?, date_birth = ?, profile_image = ? _sex = ? WHERE id_user = ?"
+async function updateInfo(userDate, profileImage, userSex, userId) {
+  const sql = "UPDATE tbl_user_info SET date_birth = ?, profile_image = ?, _sex = ? WHERE id_user = ?"
 
-  const dataInfo = [firstName, lastName, userDate, profileImage, userSex, userId];
+  const dataInfo = [userDate, profileImage, userSex, userId];
+
+  const conn = await database.connect();
+  await conn.query(sql, dataInfo);
+  conn.end();
+}
+
+async function updateLevelInfo(userLevel, totalExp, userId) {
+  const sql = "UPDATE tbl_user_info SET _level = ?, total_exp = ? WHERE id_user = ?"
+
+  const dataInfo = [userLevel, totalExp, userId];
 
   const conn = await database.connect();
   await conn.query(sql, dataInfo);
@@ -55,5 +65,6 @@ export default {
   updateInfo,
   deleteInfo,
   getAllInfo,
+  updateLevelInfo,
   getUniqueInfo
 };

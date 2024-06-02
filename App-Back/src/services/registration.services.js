@@ -14,10 +14,10 @@ async function createRegistration(userId, courseId) {
     conn.end();
 }
 
-async function updateRegistration(date, userId, courseId, registrationId) {
-    const sql = "UPDATE tbl_registration SET date_registration = ?, id_user = ?, id_course = ? WHERE _id = ?"
+async function updateRegistration(phase, lifes, date, userId, courseId, registrationId) {
+    const sql = "UPDATE tbl_registration SET _phase = ?, _lifes = ?, date_registration = ?, id_user = ?, id_course = ? WHERE _id = ?"
 
-    const dataRegistration = [date, userId, courseId, registrationId];
+    const dataRegistration = [phase, lifes, date, userId, courseId, registrationId];
 
     const conn = await database.connect();
     await conn.query(sql, dataRegistration);
@@ -42,7 +42,7 @@ async function getAllRegistration() {
 }
 
 async function updateLevelRegistration(stageLvl, registrationId) {
-    const sql = "UPDATE tbl_registration SET level_stage = ? WHERE _id = ?;"
+    const sql = "UPDATE tbl_registration SET level_stage = ?, _phase = 0, _lifes = 5, WHERE _id = ?;"
 
     const dataRegistration = [stageLvl, registrationId];
 
@@ -71,11 +71,13 @@ async function getRegistrationByCourse(userId, courseId) {
     return rows;
 }
 
-async function getRegistrationByGroup(groupId) {
-    const sql = "SELECT * FROM vw_registration WHERE id_group = ?"
+async function getRegistrationByGroup(userId, groupId) {
+    const sql = "SELECT * FROM vw_registration WHERE id_user = ? AND id_group = ?"
+
+    const dataRegistration = [userId, groupId]
 
     const conn = await database.connect();
-    const [rows] = await conn.query(sql, groupId);
+    const [rows] = await conn.query(sql, dataRegistration);
     conn.end();
     return rows;
 }

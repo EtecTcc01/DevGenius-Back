@@ -11,6 +11,6 @@ api.use(express.json());
 
 api.use('/devgenius', routes);
 
-api.listen(process.env.PORT || 3333, () => {
+api.listen(process.env.PORT || 3000, () => {
   console.log('Servidor RODANDO! WIUWIU ☜(ﾟヮﾟ☜) ')
 })
