@@ -76,7 +76,48 @@ routes.put('/level', async (request, response) => {
     } catch (error) {
         response.status(500).send({ message: `Erro ao atualizar o Registro. ${error}` });
     }
+})
 
+routes.put('/lifes', async (request, response) => {
+    try {
+        const { lifes, registrationId } = request.body;
+
+        await db.updateLifeRegistration(lifes, registrationId);
+
+        const registration = await db.getUniqueRegistration(registrationId)
+
+        if (registration.length > 0) {
+            return response.status(200).send({
+                registration: registration,
+                message: `Registro atualizado com sucesso`
+            });
+        } else {
+            return response.status(204).end();
+        }
+    } catch (error) {
+        response.status(500).send({ message: `Erro ao atualizar o Registro. ${error}` });
+    }
+})
+
+routes.put('/phase', async (request, response) => {
+    try {
+        const { phase, registrationId } = request.body;
+
+        await db.updatePhaseRegistration(phase, registrationId);
+
+        const registration = await db.getUniqueRegistration(registrationId)
+
+        if (registration.length > 0) {
+            return response.status(200).send({
+                registration: registration,
+                message: `Registro atualizado com sucesso`
+            });
+        } else {
+            return response.status(204).end();
+        }
+    } catch (error) {
+        response.status(500).send({ message: `Erro ao atualizar o Registro. ${error}` });
+    }
 })
 
 routes.get('/unique/:registrationId', async (request, response) => {

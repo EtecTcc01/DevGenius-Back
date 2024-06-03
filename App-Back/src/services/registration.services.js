@@ -42,9 +42,29 @@ async function getAllRegistration() {
 }
 
 async function updateLevelRegistration(stageLvl, registrationId) {
-    const sql = "UPDATE tbl_registration SET level_stage = ?, _phase = 0, _lifes = 5, WHERE _id = ?;"
+    const sql = "UPDATE tbl_registration SET level_stage = ?, _phase = 0, _lifes = 5 WHERE _id = ?;"
 
     const dataRegistration = [stageLvl, registrationId];
+
+    const conn = await database.connect();
+    await conn.query(sql, dataRegistration);
+    conn.end();
+}
+
+async function updateLifeRegistration(lifes, registrationId) {
+    const sql = "UPDATE tbl_registration SET _lifes = ? WHERE _id = ?;"
+
+    const dataRegistration = [lifes, registrationId];
+
+    const conn = await database.connect();
+    await conn.query(sql, dataRegistration);
+    conn.end();
+}
+
+async function updatePhaseRegistration(phase, registrationId) {
+    const sql = "UPDATE tbl_registration SET _phase = ? WHERE _id = ?;"
+
+    const dataRegistration = [phase, registrationId];
 
     const conn = await database.connect();
     await conn.query(sql, dataRegistration);
@@ -90,5 +110,7 @@ export default {
     updateLevelRegistration,
     getUniqueRegistration,
     getRegistrationByCourse,
-    getRegistrationByGroup
+    getRegistrationByGroup,
+    updateLifeRegistration,
+    updatePhaseRegistration
 }
