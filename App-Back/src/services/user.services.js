@@ -1,9 +1,8 @@
 import database from '../repository/connectMysql.js';
 
-
 async function createUser(userEmail, userName, userPassword, userType) {
 
-  let sql = `INSERT INTO tbl_user (_email, _name, _password, id_type) VALUES (?, ?, ?, ?)`
+  let sql = `CALL UserRegistration(?, ?, ?, ?)`
 
   const dataUser = [userEmail, userName, userPassword, userType];
 

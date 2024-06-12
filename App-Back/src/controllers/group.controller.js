@@ -4,9 +4,9 @@ import db from '../services/group.services.js'
 const routes = express.Router();
 
 routes.post('/', async (request, response) => {
-    const { name } = request.body;
-
     try {
+        const { name } = request.body;
+
         await db.createGroup(name);
 
         return response.status(201).send({ message: 'Grupo adicionado com sucesso.' });
@@ -59,6 +59,12 @@ routes.get('/', async (request, response) => {
 
 routes.post('/userGroup', async (request, response) => {
     const { groupId, userId } = request.body;
+
+    const verifyTest = await db.handlerVerification(groupId, userId)
+
+    if (verifyTest.length > 0) {
+        return response.status(401).send({ message: 'Usuário já cadastrado no grupo.' });
+    }
 
     try {
         await db.createUserGroup(groupId, userId);

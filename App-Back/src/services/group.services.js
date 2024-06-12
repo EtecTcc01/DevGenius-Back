@@ -69,6 +69,18 @@ async function getAllUserGroup(userId) {
   return rows;
 }
 
+async function handlerVerification(groupId, userId) {
+  let sql = 'SELECT * FROM tbl_user_group WHERE id_group = ? AND id_user = ?'
+  
+  const dataGroup = [groupId, userId]
+
+  const conn = await database.connect()
+  const [rows] = await conn.query(sql, dataGroup)
+  conn.end();
+  
+  return rows;
+}
+
 export default {
   createGroup,
   updateGroup,
@@ -76,5 +88,6 @@ export default {
   getAllGroup,
   createUserGroup,
   getUniqueGroup,
-  getAllUserGroup
+  getAllUserGroup,
+  handlerVerification
 };

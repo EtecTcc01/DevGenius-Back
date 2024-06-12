@@ -1,6 +1,5 @@
 import database from '../repository/connectMysql.js';
 
-
 async function createInfo(userDate, userSex, userId) {
 
   const sql = `INSERT INTO tbl_user_info (date_birth, _sex, id_user) VALUES ( ?, ?, ?)`
