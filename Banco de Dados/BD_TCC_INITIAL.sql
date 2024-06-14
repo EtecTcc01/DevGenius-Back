@@ -4,8 +4,15 @@
 # -----------------------------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO tbl_user_type (_name) VALUES ("COMUM"), ("ADMINISTRATOR"), ("EDUCATOR");
+
 INSERT INTO tbl_user (_name, _email, _password, id_type) VALUES ("Admin","admin01@gmail.com","admin0001", 2), ("Other","other01@gmail.com","other0001", 1);
 INSERT INTO tbl_user_info (id_user, date_birth, _sex) VALUES (1, "2000-02-09", "M"), (2, "1988-04-22", "F");
+
+INSERT INTO tbl_achievement (_title, _description, _exp) VALUES ("Primeiro Estagio", "Conquista de conclusão para o primeiro estágio concluido de qualquer atividade.", 1), 
+("Primeiro Curso", "Conquista de finalização do primeiro curso do usuário.", 3), ("Perda Total", "Conquista de perda de todas as 'vidas' do usuário em um (Único) estágio.", 0);
+
+INSERT INTO tbl_title (_name, _description) VALUES ("Aprendiz", "Título dado a quem iniciou o primeiro curso no app.");
+
 INSERT INTO tbl_group (_name) VALUES ("Público"), ("GRUPO DOIS"), ("GROUP TRHEE"), ("GRUPO DE FOUR");
 INSERT INTO tbl_user_group (id_group, id_user) VALUES (2, 1), (1, 1), (1, 2), (2, 2), (4, 2);
 

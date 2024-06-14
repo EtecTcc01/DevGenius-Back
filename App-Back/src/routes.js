@@ -9,6 +9,8 @@ import groupController from './controllers/group.controller.js';
 import courseController from './controllers/course.controller.js'
 import stageController from './controllers/stage.controller.js'
 import registrationController from './controllers/registration.controller.js'
+import achievementController from './controllers/achievement.controller.js'
+import titleController from './controllers/title.controller.js'
 import express from 'express';
 
 const routes = express();
@@ -34,5 +36,9 @@ routes.use('/course', courseController)
 routes.use('/stage', stageController)
 
 routes.use('/registration', registrationController)
+
+routes.use('/achievement', achievementController)
+
+routes.use('/title', titleController)
 
 export default routes;
