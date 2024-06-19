@@ -18,7 +18,7 @@ BEGIN
         VALUES (userId, courseId);
 	END IF;
     
-	SELECT a._id AS id_registration, a.date_registration, a.level_stage, a._phase, a._lifes,
+	SELECT a._id AS id_registration, a.date_registration, a.level_stage, a._phase, a._lifes, a._points,
 	b._id AS id_user, b._name AS _user, b._email AS email_user,
 	c._id AS id_course, c._name AS _course, c._description AS course_desc, c._icon AS course_icon,
 	d._id AS id_group, d._name AS _group

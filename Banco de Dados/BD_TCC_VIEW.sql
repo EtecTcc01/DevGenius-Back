@@ -1,7 +1,7 @@
 #ARQUIVO P/ARMAZENAR SELECT'S E VIEW'S DAS TABELAS DO bd_devgenius
 
 CREATE VIEW vw_registration AS (
-	SELECT a._id AS id_registration, a.date_registration, a.level_stage, a._phase, a._lifes,
+	SELECT a._id AS id_registration, a.date_registration, a.level_stage, a._phase, a._lifes, a._points,
     b._id AS id_user, b._name AS _user, b._email AS email_user,
 	c._id AS id_course, c._name AS _course, c._description AS course_desc, c._icon AS course_icon,
 	d._id AS id_group, d._name AS _group
@@ -13,14 +13,14 @@ CREATE VIEW vw_registration AS (
 
 CREATE VIEW vw_user_info AS (
 	SELECT a._id AS id_user, a._name AS user_name, a._email, a._password, c._name AS type_user,
-	b.date_birth, b._sex, b._level, b.total_exp, b.profile_image, a._inactive 
+	b.date_birth, b._sex, b._level, b.total_exp, b.profile_image, b.title_actual, a._inactive 
 	from tbl_user AS a 
 	INNER JOIN tbl_user_info AS b ON b.id_user = a._id
 	INNER JOIN tbl_user_type AS c ON c._id = a.id_type
 );
 
 CREATE VIEW vw_user_groups AS (
-	SELECT b._id AS group_id, b._name AS group_name, a.id_user AS user_id, c._name AS user_name
+	SELECT b._id AS group_id, b._name AS group_name, a.id_user AS user_id, c._name AS user_name, a.date_register
 	FROM tbl_user_group AS a 
 	INNER JOIN tbl_group AS b ON b._id = a.id_group
 	INNER JOIN tbl_user AS c ON c._id = a.id_user

@@ -120,6 +120,27 @@ routes.put('/phase', async (request, response) => {
     }
 })
 
+routes.put('/points', async (request, response) => {
+    try {
+        const { points, registrationId } = request.body;
+
+        await db.updatePointRegistration(points, registrationId);
+
+        const registration = await db.getUniqueRegistration(registrationId)
+
+        if (registration.length > 0) {
+            return response.status(200).send({
+                registration: registration,
+                message: `Registro atualizado com sucesso`
+            });
+        } else {
+            return response.status(204).end();
+        }
+    } catch (error) {
+        response.status(500).send({ message: `Erro ao atualizar o Registro. ${error}` });
+    }
+})
+
 routes.get('/unique/:registrationId', async (request, response) => {
     try {
         const { registrationId } = request.params;

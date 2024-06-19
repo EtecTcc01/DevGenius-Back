@@ -71,6 +71,16 @@ async function updatePhaseRegistration(phase, registrationId) {
     conn.end();
 }
 
+async function updatePointRegistration(points, registrationId) {
+    const sql = "UPDATE tbl_registration SET _points = ? WHERE _id = ?;"
+
+    const dataRegistration = [points, registrationId];
+
+    const conn = await database.connect();
+    await conn.query(sql, dataRegistration);
+    conn.end();
+}
+
 async function getUniqueRegistration(registrationId) {
     const sql = "SELECT * FROM vw_registration WHERE id_registration = ?";
 
@@ -112,5 +122,6 @@ export default {
     getRegistrationByCourse,
     getRegistrationByGroup,
     updateLifeRegistration,
-    updatePhaseRegistration
+    updatePhaseRegistration,
+    updatePointRegistration
 }
