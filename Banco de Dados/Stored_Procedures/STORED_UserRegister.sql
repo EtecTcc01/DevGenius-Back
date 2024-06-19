@@ -17,6 +17,7 @@ BEGIN
     FROM tbl_user AS a
     WHERE a._name = userName;
     
-	INSERT INTO tbl_user_info (date_birth, _sex, id_user) VALUES ("0000-00-00", "O", userId);
+    INSERT INTO tbl_user_info (date_birth, _sex, id_user) VALUES ("0000/00/00", "O", userId);
+    INSERT INTO tbl_user_group (id_user, id_group) VALUES (userId, 1);
 END
 $$

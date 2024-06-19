@@ -41,6 +41,19 @@ async function getAllTitle() {
     return rows;
 }
 
+async function createUserTitle(userId, titleId) {
+
+    const sql = `INSERT INTO tbl_user_title (id_user, id_title) VALUES (?, ?);`
+
+    const dataTitle = [userId, titleId]
+
+    const conn = await database.connect();
+
+    await conn.query(sql, dataTitle);
+
+    conn.end();
+}
+
 async function getUniqueTitle(titleId) {
     const sql = "SELECT * FROM tbl_title WHERE _id = ?";
 
@@ -65,5 +78,6 @@ export default {
     deleteTitle,
     getAllTitle,
     getUniqueTitle,
-    getTitleByUser
+    getTitleByUser,
+    createUserTitle
 }

@@ -3,7 +3,7 @@ import db from '../services/achievement.services.js'
 
 const routes = express.Router();
 
-routes.post('/', async (request, response) => {
+routes.post('/register', async (request, response) => {
   const { title, description, icon, exp } = request.body;
 
   try {
@@ -55,6 +55,19 @@ routes.get('/', async (request, response) => {
   } catch (error) {
     response.status(500).send({ message: `Erro ao buscar os Conquistas. ${error}` })
   }
+})
+
+routes.post('/user/achievement', async (request, response) => {
+  const { userId, achievementId } = request.body;
+
+  try {
+    await db.createUserAchievement(userId, achievementId);
+
+    return response.status(201).send({ message: 'Conquista adicionada com sucesso.' });
+  } catch (error) {
+    return response.status(500).send({ message: `Erro no servidor: ${error}` })
+  }
+
 })
 
 routes.get('/unique/:achievementId', async (request, response) => {

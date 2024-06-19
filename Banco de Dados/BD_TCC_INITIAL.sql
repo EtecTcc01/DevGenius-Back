@@ -4,17 +4,18 @@
 # -----------------------------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO tbl_user_type (_name) VALUES ("COMUM"), ("ADMINISTRATOR"), ("EDUCATOR");
+INSERT INTO tbl_group (_name) VALUES ("Público"), ("GRUPO DOIS"), ("GROUP TRHEE"), ("GRUPO DE FOUR");
 
-INSERT INTO tbl_user (_name, _email, _password, id_type) VALUES ("Admin","admin01@gmail.com","admin0001", 2), ("Other","other01@gmail.com","other0001", 1);
-INSERT INTO tbl_user_info (id_user, date_birth, _sex) VALUES (1, "2000-02-09", "M"), (2, "1988-04-22", "F");
+CALL UserRegistration("admin01@gmail.com", "Admin", "admin0001", 2); 
+UPDATE tbl_user_info SET date_birth = "2000/02/09", _sex = "M" WHERE id_user = 1;
+
+CALL UserRegistration("other01@gmail.com", "Other", "other0001", 1);
+UPDATE tbl_user_info SET date_birth = "1988/04/22", _sex = "F" WHERE id_user = 2;
 
 INSERT INTO tbl_achievement (_title, _description, _exp) VALUES ("Primeiro Estagio", "Conquista de conclusão para o primeiro estágio concluido de qualquer atividade.", 1), 
 ("Primeiro Curso", "Conquista de finalização do primeiro curso do usuário.", 3), ("Perda Total", "Conquista de perda de todas as 'vidas' do usuário em um (Único) estágio.", 0);
 
 INSERT INTO tbl_title (_name, _description) VALUES ("Aprendiz", "Título dado a quem iniciou o primeiro curso no app.");
-
-INSERT INTO tbl_group (_name) VALUES ("Público"), ("GRUPO DOIS"), ("GROUP TRHEE"), ("GRUPO DE FOUR");
-INSERT INTO tbl_user_group (id_group, id_user) VALUES (2, 1), (1, 1), (1, 2), (2, 2), (4, 2);
 
 INSERT INTO tbl_operation (_name, _description) VALUES ("Básico","Nível simples e fácil, focado em um quiz para ajudar o usuário a memorizar coisas importantes."), 
 ("Intermediário","Nível com um aumento no grau de dificuldade em relação ao anterior, onde o usuário completa o código dado."), 

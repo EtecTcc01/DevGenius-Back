@@ -5,11 +5,11 @@ async function createAchievement(title, description, icon, exp) {
 
     const sql = `INSERT INTO tbl_achievement (_title, _description, _icon, _exp) VALUES (?, ?, ?, ?);`
 
-    const dataCourse = [title, description, icon, exp]
+    const dataAchievement = [title, description, icon, exp]
 
     const conn = await database.connect();
 
-    await conn.query(sql, dataCourse);
+    await conn.query(sql, dataAchievement);
 
     conn.end();
 }
@@ -17,10 +17,10 @@ async function createAchievement(title, description, icon, exp) {
 async function updateAchievement(title, description, icon, exp, achievementId) {
     const sql = "UPDATE tbl_achievement SET _title = ?, _description = ?, _icon = ?, _exp = ? WHERE _id = ?"
 
-    const dataCourse = [title, description, icon, exp, achievementId];
+    const dataAchievement = [title, description, icon, exp, achievementId];
 
     const conn = await database.connect();
-    await conn.query(sql, dataCourse);
+    await conn.query(sql, dataAchievement);
     conn.end();
 }
 
@@ -39,6 +39,19 @@ async function getAllAchievement() {
     const [rows] = await conn.query(sql);
     conn.end();
     return rows;
+}
+
+async function createUserAchievement(userId, achievementId) {
+
+    const sql = `INSERT INTO tbl_user_achievement (id_user, id_achievement) VALUES (?, ?);`
+
+    const dataAchievement = [userId, achievementId]
+
+    const conn = await database.connect();
+
+    await conn.query(sql, dataAchievement);
+
+    conn.end();
 }
 
 async function getUniqueAchievement(achievementId) {
@@ -65,5 +78,6 @@ export default {
     deleteAchievement,
     getAllAchievement,
     getUniqueAchievement,
-    getAchievementByUser
+    getAchievementByUser,
+    createUserAchievement
 }

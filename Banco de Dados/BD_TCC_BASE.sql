@@ -17,6 +17,7 @@ CREATE TABLE tbl_user ( #TBL PARA CADASTRO DE USUARIOS
     _email VARCHAR(100), #email valido do usuario
     _password VARCHAR(30), #senha do usuario
     _inactive BOOLEAN DEFAULT 0, #status da conta do usuário
+    date_register DATETIME DEFAULT NOW(), #data em que o usuário foi cadastrado
     CONSTRAINT tbl_user_id_pk PRIMARY KEY (_id)
 );
 
@@ -37,8 +38,6 @@ CREATE TABLE tbl_user_title ( #TABELA DE CONQUISTAS DO USUÁRIO
 
 CREATE TABLE tbl_user_info ( #TABELA DE INFORMAÇÕES DE USUARIO
 	id_user INT UNSIGNED, #id correpondente ao usuário
-    #first_name VARCHAR(30), #primeiro nome do usuário
-    #last_name VARCHAR(50), #sobrenome do usuário
     date_birth VARCHAR(10), #data de nascimento do usuário
     profile_image VARCHAR(500) DEFAULT "", #imagem de perfil do usuário
     _sex CHAR(1), #sexo do usuário: F (Feminino), M (Masculino) ou O (Outro ?)

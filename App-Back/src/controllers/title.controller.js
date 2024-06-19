@@ -57,6 +57,19 @@ routes.get('/', async (request, response) => {
   }
 })
 
+routes.post('/user/title', async (request, response) => {
+  const { userId, titleId } = request.body;
+
+  try {
+    await db.createUserTitle(userId, titleId);
+
+    return response.status(201).send({ message: 'Título adicionado com sucesso.' });
+  } catch (error) {
+    return response.status(500).send({ message: `Erro no servidor: ${error}` })
+  }
+
+})
+
 routes.get('/unique/:titleId', async (request, response) => {
   try {
     const { titleId } = request.params;
