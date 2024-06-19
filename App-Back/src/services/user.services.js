@@ -70,6 +70,15 @@ async function getUserInfo(userId) {
   return rows;
 }
 
+async function getUserRank() {
+  const sql = "SELECT * FROM vw_user_info ORDER BY _level DESC, total_exp DESC"
+
+  const conn = await database.connect();
+  const [rows] = await conn.query(sql);
+  conn.end();
+  return rows;
+}
+
 // -------------------------- USER LOGIN -------------------------------------------------
 
 async function handleLogin(userEmail, userPassword) {
@@ -106,5 +115,6 @@ export default {
   getUserInfo,
   inactiveUser,
   handleVerification,
-  handleLogin
+  handleLogin,
+  getUserRank
 };

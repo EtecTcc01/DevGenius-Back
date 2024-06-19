@@ -105,6 +105,22 @@ routes.get('/userInfo/:userId', async (request, response) => {
   }
 })
 
+routes.get('/rank', async (request, response) => {
+  try {
+
+    const users = await db.getUserRank();
+
+    if (users.length > 0) {
+      return response.status(200).send({ user: users });
+    } else {
+      return response.status(204).end();
+    }
+
+  } catch (error) {
+    response.status(500).send({ message: `Erro ao buscar os dados. ${error}` })
+  }
+})
+
 //LOGIN --------------------------------------------------------------------------
 
 routes.post('/validation', async (request, response) => {
