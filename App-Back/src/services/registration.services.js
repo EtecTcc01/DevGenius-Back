@@ -42,7 +42,7 @@ async function getAllRegistration() {
 }
 
 async function updateLevelRegistration(stageLvl, registrationId) {
-    const sql = "UPDATE tbl_registration SET level_stage = ?, _phase = 0, _lifes = 5 WHERE _id = ?;"
+    const sql = "UPDATE tbl_registration SET level_stage = ?, _phase = 0, _lifes = 5, _points = 0 WHERE _id = ?;"
 
     const dataRegistration = [stageLvl, registrationId];
 
