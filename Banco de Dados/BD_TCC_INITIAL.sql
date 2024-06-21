@@ -6,10 +6,10 @@
 INSERT INTO tbl_user_type (_name) VALUES ("COMUM"), ("ADMINISTRATOR"), ("EDUCATOR");
 INSERT INTO tbl_group (_name) VALUES ("Público"), ("GRUPO DOIS"), ("GROUP TRHEE"), ("GRUPO DE FOUR");
 
-CALL UserRegistration("admin01@gmail.com", "Admin", "admin0001", 2); 
+CALL UserRegistration("admin01@gmail.com", "Admin", "admin0001", 2, 1); 
 UPDATE tbl_user_info SET date_birth = "2000/02/09", _sex = "M" WHERE id_user = 1;
 
-CALL UserRegistration("other01@gmail.com", "Other", "other0001", 1);
+CALL UserRegistration("other01@gmail.com", "Other", "other0001", 1, 0);
 UPDATE tbl_user_info SET date_birth = "1988/04/22", _sex = "F" WHERE id_user = 2;
 
 INSERT INTO tbl_achievement (_title, _description, _exp) VALUES ("Primeiro Estagio", "Conquista de conclusão para o primeiro estágio concluido de qualquer atividade.", 1), 

@@ -72,6 +72,7 @@ CREATE TABLE tbl_group ( #TABELA DE GRUPOS
 CREATE TABLE tbl_user_group ( #TABELA DE GRUPOS DO USUÁRIO
 	id_group INT UNSIGNED, #id do curso
     id_user INT UNSIGNED, #id do usuário participante do curso
+    _perm BOOLEAN DEFAULT 0, #state p/definir state de admin p/o usuário
 	date_register DATETIME DEFAULT NOW(), #data/horario em que o usuário foi adicionado ao grupo
     CONSTRAINT tbl_user_group_id_pk PRIMARY KEY (id_group, id_user)
 );

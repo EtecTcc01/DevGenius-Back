@@ -3,7 +3,7 @@ import database from '../repository/connectMysql.js'
 
 async function createTask(name, task, explanation, operationId, stageId) {
 
-  const sql = `INSERT INTO tbl_task (_name, _text, _explanation, id_operation, id_stage) VALUES (?, ?, ?, ?, ?, ?)`
+  const sql = `INSERT INTO tbl_task (_name, _text, _explanation, id_operation, id_stage) VALUES (?, ?, ?, ?, ?)`
 
   const dataTask = [name, task, explanation, operationId, stageId]
 
@@ -15,7 +15,7 @@ async function createTask(name, task, explanation, operationId, stageId) {
 }
 
 async function updateTask(name, task, explanation, operationId, stageId, taskId) {
-  const sql = "UPDATE tbl_task set _name = ?, _text = ?, _explanation = ?, id_operation = ?, id_stage = ? WHERE _id = ?"
+  const sql = "UPDATE tbl_task set _name = ?, id_task = ?, _text = ?, _explanation = ?, id_operation = ?, id_stage = ? WHERE _id = ?"
 
   const dataTask = [name, task, explanation, operationId, stageId, taskId]
 

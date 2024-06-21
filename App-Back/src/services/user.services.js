@@ -2,7 +2,7 @@ import database from '../repository/connectMysql.js';
 
 async function createUser(userEmail, userName, userPassword, userType) {
 
-  let sql = `CALL UserRegistration(?, ?, ?, ?)`
+  let sql = `CALL UserRegistration(?, ?, ?, ?, 0)`
 
   const dataUser = [userEmail, userName, userPassword, userType];
 
@@ -71,7 +71,7 @@ async function getUserInfo(userId) {
 }
 
 async function getUserRank() {
-  const sql = "SELECT * FROM vw_user_info ORDER BY _level DESC, total_exp DESC"
+  const sql = "SELECT * FROM vw_user_info ORDER BY _level DESC, total_exp DESC, date_register"
 
   const conn = await database.connect();
   const [rows] = await conn.query(sql);

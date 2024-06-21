@@ -6,7 +6,8 @@ CREATE PROCEDURE UserRegistration(
 	IN userEmail VARCHAR(100), 
 	IN userName VARCHAR(30), 
 	IN userPassword VARCHAR(30), 
-	IN userType INT
+	IN userType INT,
+    IN userPermG BOOLEAN
 )
 BEGIN
 	DECLARE userId INT;
@@ -18,6 +19,6 @@ BEGIN
     WHERE a._name = userName;
     
     INSERT INTO tbl_user_info (date_birth, _sex, id_user) VALUES ("0000/00/00", "O", userId);
-    INSERT INTO tbl_user_group (id_user, id_group) VALUES (userId, 1);
+    INSERT INTO tbl_user_group (id_user, id_group, _perm) VALUES (userId, 1, userPermG);
 END
 $$
