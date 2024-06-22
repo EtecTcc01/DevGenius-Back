@@ -57,7 +57,7 @@ routes.get('/', async (request, response) => {
   }
 })
 
-routes.post('/user/achievement', async (request, response) => {
+routes.post('/user/register', async (request, response) => {
   const { userId, achievementId } = request.body;
 
   try {
