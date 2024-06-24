@@ -104,4 +104,21 @@ routes.get('/by/user/:userId', async (request, response) => {
   }
 })
 
+routes.get('/by/user/ordened/:userId', async (request, response) => {
+  try {
+    const { userId } = request.params;
+
+    const achievement = await db.getAchievementByUserOrdened(userId);
+
+    if (achievement.length > 0) {
+      return response.status(200).send({ achievement: achievement });
+    } else {
+      return response.status(204).end();
+    }
+
+  } catch (error) {
+    response.status(500).send({ message: `Erro ao buscar o Conquista. ${error}` })
+  }
+})
+
 export default routes;

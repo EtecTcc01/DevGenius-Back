@@ -72,6 +72,15 @@ async function getAchievementByUser(userId) {
     return rows;
 }
 
+async function getAchievementByUserOrdened(userId) {
+    const sql = "SELECT * FROM tbl_user_achievement WHERE id_user = ? ORDER BY date_reward DESC";
+
+    const conn = await database.connect();
+    const [rows] = await conn.query(sql, userId);
+    conn.end();
+    return rows;
+}
+
 export default {
     createAchievement,
     updateAchievement,
@@ -79,5 +88,6 @@ export default {
     getAllAchievement,
     getUniqueAchievement,
     getAchievementByUser,
-    createUserAchievement
+    createUserAchievement,
+    getAchievementByUserOrdened
 }

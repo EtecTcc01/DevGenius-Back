@@ -13,7 +13,7 @@ CALL UserRegistration("other01@gmail.com", "Other", "other0001", 1, 0);
 UPDATE tbl_user_info SET date_birth = "1988/04/22", _sex = "F" WHERE id_user = 2;
 
 INSERT INTO tbl_achievement (_title, _description, _exp) VALUES ("Primeiro Estagio", "Conquista de conclusão para o primeiro estágio concluido de qualquer atividade.", 1), 
-("Primeiro Curso", "Conquista de finalização do primeiro curso do usuário.", 3), ("Perda Total", "Conquista de perda de todas as 'vidas' do usuário em um (Único) estágio.", 0);
+("Primeiro Curso", "Conquista de finalização do primeiro curso do usuário.", 3), ("Perda Total", "Conquista de perda de todas as 'vidas' do usuário em um (Único) estágio.", 1);
 
 INSERT INTO tbl_title (_name, _description) VALUES ("Aprendiz", "Título dado a quem iniciou o primeiro curso no app.");
 
