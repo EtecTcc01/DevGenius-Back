@@ -20,7 +20,7 @@ INSERT INTO tbl_operation (_name, _description) VALUES ("Básico","Nível simple
 ("Avançado","Nível relativamente díficil, onde o usuário desenvolve o código sozinho com as alternativas dadas, de acordo com o enunciado.");
  
 INSERT INTO tbl_course (_name, _description, id_group, _icon) VALUES 
-("Projeto WEB", "HTML + CSS. 'Pacote' com duas linguagens de marcação de texto para a construção de projetos web.", 1, "https://cdn.dribbble.com/users/783/screenshots/104300/shot_1295820312.gif"), 
+("Projeto WEB", "HTML + CSS. 'Pacote' com duas linguagens de marcação de texto para a construção de projetos web.", 1, "https://img.icons8.com/?size=100&id=Yfprg8CASXbD&format=png&color=000000"), 
 ("JavaScript", "JavaScript é a linguagem de programação essencial para INTeratividade em páginas web.", 1, "https://img.icons8.com/?size=100&id=108784&format=png&color=000000"), 
 ("NodeJs", "É um software de código que permite a execução de códigos JavaScript fora de um navegador web.", 1, "https://img.icons8.com/?size=100&id=ouWtcsgDBiwO&format=png&color=000000"), 
 ("MySQL", "MySQL é uma linguagem para gerenciar bancos de dados relacionais, permitindo consultas e manipulações.", 2, "https://img.icons8.com/?size=100&id=8httoRHg3Sbt&format=png&color=000000"), 
@@ -81,4 +81,3 @@ INSERT INTO tbl_answer_advanced (id_task, _code) VALUES (9, "<meta charset=''>\n
 #TESTE
 INSERT INTO tbl_task (id_operation, _name, _text, _explanation, id_stage) VALUES (1, "HTML BÁSICO 01.2", "Quais tags são usadas para 'linkar' o arquivo JavaScript e CSS com o HTML?", "Leia a Teoria HTML 01 para saber mais.", 6);
 INSERT INTO tbl_answer_basic (id_task, _text, _alternativeA, _alternativeB, _alternativeC) VALUES (10, "Tag <script> e <link>", "Tag <html> e <script>", "Tag <css> e <js>", "Tag <universal>");
-
