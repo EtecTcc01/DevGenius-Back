@@ -21,21 +21,6 @@ CREATE TABLE tbl_user ( #TBL PARA CADASTRO DE USUARIOS
     CONSTRAINT tbl_user_id_pk PRIMARY KEY (_id)
 );
 
-CREATE TABLE tbl_title ( #TABELA DE TÍTULOS
-	_id INT UNSIGNED AUTO_INCREMENT,
-    _name VARCHAR(50), #nome do titulo
-    _description VARCHAR(300), #descrição da titulo
-    _exp INT DEFAULT 0, #exp ganho ao adquirir o titulo
-    CONSTRAINT tbl_title_pk PRIMARY KEY (_id)
-);
-
-CREATE TABLE tbl_user_title ( #TABELA DE CONQUISTAS DO USUÁRIO
-	id_title INT UNSIGNED, #id da conquista
-    id_user INT UNSIGNED, #id do usuário
-    date_reward DATETIME DEFAULT NOW(), #data/horario em que o título foi adquirido
-    CONSTRAINT tbl_user_title_id_pk PRIMARY KEY (id_title, id_user)
-);
-
 CREATE TABLE tbl_user_info ( #TABELA DE INFORMAÇÕES DE USUARIO
 	id_user INT UNSIGNED, #id correpondente ao usuário
     date_birth VARCHAR(10), #data de nascimento do usuário
@@ -43,7 +28,6 @@ CREATE TABLE tbl_user_info ( #TABELA DE INFORMAÇÕES DE USUARIO
     _sex CHAR(1), #sexo do usuário: F (Feminino), M (Masculino) ou O (Outro ?)
     _level INT DEFAULT 0, #nivel atual do usuario
 	total_exp FLOAT DEFAULT 0, #exp total (acumulativo) do usuario
-    title_actual VARCHAR(50) DEFAULT "Nenhum", #titulo atual exercido pelo usuário
     CONSTRAINT tbl_user_info_id_pk PRIMARY KEY (id_user)
 );
 
@@ -72,7 +56,8 @@ CREATE TABLE tbl_group ( #TABELA DE GRUPOS
 CREATE TABLE tbl_user_group ( #TABELA DE GRUPOS DO USUÁRIO
 	id_group INT UNSIGNED, #id do curso
     id_user INT UNSIGNED, #id do usuário participante do curso
-    _perm BOOLEAN DEFAULT 0, #state p/definir state de admin p/o usuário
+    _perm BOOLEAN DEFAULT 0, #state p/definir permissão de admin/usuário comum/educator
+    _inactive BOOLEAN DEFAULT 0, #state p/fake delete do usuário do grupo
 	date_register DATETIME DEFAULT NOW(), #data/horario em que o usuário foi adicionado ao grupo
     CONSTRAINT tbl_user_group_id_pk PRIMARY KEY (id_group, id_user)
 );

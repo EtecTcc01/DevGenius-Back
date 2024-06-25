@@ -11,16 +11,24 @@ CREATE VIEW vw_registration AS (
 	INNER JOIN tbl_group AS d ON d._id = c.id_group
 );
 
+CREATE VIEW vw_user_achievements AS (
+	SELECT a.id_achievement, b._title AS achievement_title, b._description AS achievement_desc, b._exp,
+	a.id_user, c._name AS user_name, c._email AS user_email, a.date_reward
+	FROM tbl_user_achievement AS a
+	INNER JOIN tbl_achievement AS b ON a.id_achievement = b._id
+	INNER JOIN tbl_user AS c ON c._id = a.id_user
+);
+
 CREATE VIEW vw_user_info AS (
 	SELECT a._id AS id_user, a._name AS user_name, a._email, a._password, c._name AS type_user,
-	b.date_birth, b._sex, b._level, b.total_exp, b.profile_image, b.title_actual, a.date_register, a._inactive
+	b.date_birth, b._sex, b._level, b.total_exp, b.profile_image, a.date_register, a._inactive
 	from tbl_user AS a 
 	INNER JOIN tbl_user_info AS b ON b.id_user = a._id
 	INNER JOIN tbl_user_type AS c ON c._id = a.id_type
 );
 
 CREATE VIEW vw_user_groups AS (
-	SELECT b._id AS group_id, b._name AS group_name, a._perm,
+	SELECT b._id AS group_id, b._name AS group_name, a._perm, a._inactive,
     a.id_user AS user_id, c._name AS user_name, a.date_register
 	FROM tbl_user_group AS a 
 	INNER JOIN tbl_group AS b ON b._id = a.id_group

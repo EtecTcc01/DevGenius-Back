@@ -81,6 +81,15 @@ async function getAchievementByUserOrdened(userId) {
     return rows;
 }
 
+async function getAllAchievementsByUser(userId) {
+    const sql = "SELECT * FROM vw_user_achievements WHERE id_user = ?";
+
+    const conn = await database.connect();
+    const [rows] = await conn.query(sql, userId);
+    conn.end();
+    return rows;
+}
+
 export default {
     createAchievement,
     updateAchievement,
@@ -89,5 +98,6 @@ export default {
     getUniqueAchievement,
     getAchievementByUser,
     createUserAchievement,
-    getAchievementByUserOrdened
+    getAchievementByUserOrdened,
+    getAllAchievementsByUser
 }

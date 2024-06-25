@@ -24,7 +24,7 @@ async function updateGroup(name, groupId) {
 
 async function deleteGroup(groupId) {
   const sql = "DELETE FROM tbl_group WHERE _id = ?";
-
+  
   const conn = await database.connect();
   await conn.query(sql, groupId);
   conn.end();
@@ -37,6 +37,16 @@ async function getAllGroup() {
   const [rows] = await conn.query(sql);
   conn.end();
   return rows;
+}
+
+async function userGroupSoftDel(groupId, userId) {
+  const sql = "UPDATE tbl_user_group SET _inactive = 1 WHERE id_group = ? AND id_user = ?"
+
+  const dataGroup = [groupId, userId];
+
+  const conn = await database.connect();
+  await conn.query(sql, dataGroup);
+  conn.end();
 }
 
 async function createUserGroup(groupId, userId) {
@@ -89,5 +99,6 @@ export default {
   createUserGroup,
   getUniqueGroup,
   getAllUserGroup,
-  handlerVerification
+  handlerVerification,
+  userGroupSoftDel
 };

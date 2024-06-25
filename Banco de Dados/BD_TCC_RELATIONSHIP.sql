@@ -21,19 +21,13 @@ FOREIGN KEY (id_group) REFERENCES tbl_group (_id) ON DELETE CASCADE;
 ALTER TABLE tbl_course ADD CONSTRAINT tbl_course_id_group_fk
 FOREIGN KEY (id_group) REFERENCES tbl_group (_id) ON DELETE CASCADE;
 
-# ACHIEVEMENTS/TÍTULOS -----------------------------------------------------------------------------------------------------
+# ACHIEVEMENTS -----------------------------------------------------------------------------------------------------
 
 ALTER TABLE tbl_user_achievement ADD CONSTRAINT tbl_user_achievement_id_user_fk 
 FOREIGN KEY (id_user) REFERENCES tbl_user (_id) ON DELETE CASCADE;
 
 ALTER TABLE tbl_user_achievement ADD CONSTRAINT tbl_user_achievement_id_achievement_fk 
 FOREIGN KEY (id_achievement) REFERENCES tbl_achievement (_id) ON DELETE CASCADE;
-
-ALTER TABLE tbl_user_title ADD CONSTRAINT tbl_user_title_id_user_fk 
-FOREIGN KEY (id_user) REFERENCES tbl_user (_id) ON DELETE CASCADE;
-
-ALTER TABLE tbl_user_title ADD CONSTRAINT tbl_user_title_id_title_fk 
-FOREIGN KEY (id_title) REFERENCES tbl_title (_id) ON DELETE CASCADE;
 
 # TEORIAS/TAREFAS/ETAPAS -----------------------------------------------------------------------------------------------
 

@@ -15,8 +15,6 @@ UPDATE tbl_user_info SET date_birth = "1988/04/22", _sex = "F" WHERE id_user = 2
 INSERT INTO tbl_achievement (_title, _description, _exp) VALUES ("Primeiro Estagio", "Conquista de conclusão para o primeiro estágio concluido de qualquer atividade.", 1), 
 ("Primeiro Curso", "Conquista de finalização do primeiro curso do usuário.", 3), ("Perda Total", "Conquista de perda de todas as 'vidas' do usuário em um (Único) estágio.", 1);
 
-INSERT INTO tbl_title (_name, _description) VALUES ("Aprendiz", "Título dado a quem iniciou o primeiro curso no app.");
-
 INSERT INTO tbl_operation (_name, _description) VALUES ("Básico","Nível simples e fácil, focado em um quiz para ajudar o usuário a memorizar coisas importantes."), 
 ("Intermediário","Nível com um aumento no grau de dificuldade em relação ao anterior, onde o usuário completa o código dado."), 
 ("Avançado","Nível relativamente díficil, onde o usuário desenvolve o código sozinho com as alternativas dadas, de acordo com o enunciado.");

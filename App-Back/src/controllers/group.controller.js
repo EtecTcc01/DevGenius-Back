@@ -57,6 +57,19 @@ routes.get('/', async (request, response) => {
     }
 })
 
+routes.put('/userGroup/softDel', async (request, response) => {
+    try {
+        const { groupId, userId } = request.body;
+
+        await db.userGroupSoftDel(groupId, userId);
+
+        response.status(200).send({ message: `Usuário deletado com sucesso do Grupo.` })
+    } catch (error) {
+        response.status(500).send({ message: `Erro ao atualizar o Grupo. ${error}` });
+    }
+
+})
+
 routes.post('/userGroup', async (request, response) => {
     const { groupId, userId } = request.body;
 
